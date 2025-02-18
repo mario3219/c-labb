@@ -15,4 +15,8 @@ TagRemover::TagRemover(std::istream& input) {
     while (getline(input, str)) {
         text.push_back(str);
     }
-};
+}
+
+string TagRemover::specCharRemover(string& str) {
+    
+}
