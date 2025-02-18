@@ -17,3 +17,11 @@ int main() {
         cout << "Failure" << "\n";
     }
 }
+
+string test_specCharRemover(string str) {
+    TagRemover tr(str);
+    tr.removeSpecChars();
+    return tr.print();
+}
+    
+
