@@ -5,9 +5,14 @@ using namespace std;
 
 class TagRemover {
     public:
-        TagRemover();
-
+        TagRemover(std::istream& input);
+        string removeTags();
+        string removeSpecChars();
+        string print();
+        string setString(string str);
     private:
+        string text;
+        string result;
 };
 
 #endif
