@@ -15,11 +15,12 @@ TagRemover::TagRemover(std::istream& input) : text(""), result("") {
     while (getline(input, str)) {
         text += str;
     }
+    cout << "constructor: " << text << "\n";
 }
 
-string TagRemover::specCharRemover(string& str) {
+// string TagRemover::specCharRemover(string& str) {
     
-};
+// };
 
 string TagRemover::getText() {
     return text;
