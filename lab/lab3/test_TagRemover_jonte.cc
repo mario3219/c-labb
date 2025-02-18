@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "TagRemover.h"
 
 using namespace std;
@@ -11,7 +12,7 @@ bool test_tagRemover() {
     cout << "test_tagRemover - ";
 
     test = "This is a line without a tag";
-    TagRemover tr(test);
+    TagRemover tr(istringstream istream(test));
     result = tr.removeTags();
     if (result != test) {
         cout << "Failure at: This is a line without a tag" << "\n";
@@ -19,7 +20,7 @@ bool test_tagRemover() {
     }
 
     test = "This is <tag tag> a line with one tag";
-    TagRemover tr(test);
+    TagRemover tr(istringstream istream(test));
     goal = "This is a line with one tag";
     result = tr.removeTags();
     if (result != goal) {
