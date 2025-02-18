@@ -6,8 +6,8 @@ using namespace std;
 class TagRemover {
     public:
         TagRemover();
-        
+
     private:
-}
+};
 
 #endif
