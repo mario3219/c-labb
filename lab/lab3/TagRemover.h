@@ -11,10 +11,8 @@ class TagRemover {
         string print();
         string setString(string str);
         string getText();
-        string getResult();
     private:
         string text;
-        string result;
 };
 
 #endif
