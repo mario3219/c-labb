@@ -10,6 +10,7 @@ class TagRemover {
         string removeSpecChars();
         string print();
         string setString(string str);
+        string getText();
     private:
         string text;
         string result;

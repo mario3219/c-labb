@@ -16,3 +16,7 @@ TagRemover::TagRemover(std::istream& input) : text("") {
         text += str;
     }
 };
+
+string TagRemover::getText() {
+    return text;
+}
