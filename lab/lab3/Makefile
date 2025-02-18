@@ -18,13 +18,15 @@ CXXFLAGS += $(DEPFLAGS)
 LDFLAGS = -g
 
 # Targets
-PROGS =
+PROGS = test_TagRemover
 all: $(PROGS)
 
 # Targets rely on implicit rules for compiling and linking
 #build:
 # /usr/share/dict
 
+test_TagRemover: test_TagRemover.o TagRemover.o
+	$(CC) -o test_TagRemover test_TagRemover.o TagRemover.o
 
 # Phony targets
 .PHONY: all clean distclean
