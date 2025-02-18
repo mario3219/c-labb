@@ -10,13 +10,17 @@
 
 using namespace std;
 
-TagRemover::TagRemover(std::istream& input) {
-    string text;
+TagRemover::TagRemover(std::istream& input) : text("") {
+    string str;
     while (getline(input, str)) {
-        text.push_back(str);
+        text += str;
     }
 }
 
 string TagRemover::specCharRemover(string& str) {
     
+};
+
+string TagRemover::getText() {
+    return text;
 }
