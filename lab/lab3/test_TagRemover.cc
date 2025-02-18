@@ -4,8 +4,15 @@
 using namespace std;
 
 string test_tagRemover(string str) {
-    TagRemover tr(str);
-    return tr.print();
+    TagRemover tr();
+    string result;
+    string test;
+
+    test = "This is a line without a tag";
+    tr.setString("This is a line without a tag");
+    result = tr.removeTags();
+    if (tr)
+    
 }
 
 int main() {

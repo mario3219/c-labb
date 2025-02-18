@@ -5,7 +5,8 @@ using namespace std;
 
 class TagRemover {
     public:
-        TagRemover
+        TagRemover();
+        
     private:
 }
 
