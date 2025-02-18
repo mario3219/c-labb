@@ -1,0 +1,9 @@
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/leak.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/bounds.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/bounds-heap.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/ub.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/dangling.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/sum.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/sum_alt.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/edit_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/buggy_programs/build-dbg/CMakeFiles/rebuild_cache.dir

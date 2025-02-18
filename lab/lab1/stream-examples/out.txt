@@ -1,0 +1,2 @@
+This text is written to stdout
+More text to stdout

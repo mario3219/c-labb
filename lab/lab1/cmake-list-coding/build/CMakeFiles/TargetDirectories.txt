@@ -1,0 +1,7 @@
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/CMakeFiles/ltest.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/CMakeFiles/test_coding.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/CMakeFiles/edit_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/CMakeFiles/rebuild_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/lib/CMakeFiles/lib.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/lib/CMakeFiles/edit_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-list-coding/build/lib/CMakeFiles/rebuild_cache.dir

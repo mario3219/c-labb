@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/ub.dir/ub.cc.o -o ub  -fsanitize=undefined 

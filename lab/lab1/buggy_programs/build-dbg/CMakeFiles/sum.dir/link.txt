@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/sum.dir/sum.cc.o -o sum  -fsanitize=undefined 

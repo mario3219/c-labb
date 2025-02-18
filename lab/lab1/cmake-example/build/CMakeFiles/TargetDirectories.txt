@@ -1,0 +1,6 @@
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-example/build/CMakeFiles/SimpleMain.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-example/build/CMakeFiles/edit_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-example/build/CMakeFiles/rebuild_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-example/build/testlib/CMakeFiles/TestLib.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-example/build/testlib/CMakeFiles/edit_cache.dir
+/home/jonathan/git-repositories/EDAF50/lab/lab1/cmake-example/build/testlib/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/test_coding.dir/test_coding.cc.o -o test_coding  lib/liblib.a 

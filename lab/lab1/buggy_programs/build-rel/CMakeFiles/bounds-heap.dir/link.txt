@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG "CMakeFiles/bounds-heap.dir/bounds-heap.cc.o" -o bounds-heap 
