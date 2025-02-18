@@ -4,15 +4,14 @@
 using namespace std;
 
 bool test_tagRemover() {
-    TagRemover tr();
     string test;
     string goal;
     string result;
 
-    cout << "test_tagRemover - "
+    cout << "test_tagRemover - ";
 
     test = "This is a line without a tag";
-    tr.setString(test);
+    TagRemover tr(test);
     result = tr.removeTags();
     if (result != test) {
         cout << "Failure at: This is a line without a tag" << "\n";
@@ -20,8 +19,8 @@ bool test_tagRemover() {
     }
 
     test = "This is <tag tag> a line with one tag";
+    TagRemover tr(test);
     goal = "This is a line with one tag";
-    tr.setString(test);
     result = tr.removeTags();
     if (result != goal) {
         cout << "Failure at: This is <tag tag> a line with one tag" << "\n";
@@ -34,7 +33,7 @@ bool test_tagRemover() {
 }
 
 int main() {
-    test_TagRemover(str);
+    test_TagRemover();
     return 0;
 }
 
