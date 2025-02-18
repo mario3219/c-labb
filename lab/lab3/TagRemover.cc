@@ -15,18 +15,33 @@ TagRemover::TagRemover(std::istream& input) : text("") {
 }
 
 string TagRemover::specCharRemover() {
+
+    cout << text << "\n";
+
     string temp;
     map<string,string> mp;
-    mp["&lt"] = 
-    mp["&gt"] =
-    mp["&nbsp"] =
-    string toReplace = "test";
-    string replaceWith = "new";
     size_t pos;
+    mp["&lt"] = "<";
+    mp["&gt"] = ">";
+    mp["&nbsp"] = " ";
+    mp["&amp"] = "&";
+
+    for (auto x = mp.begin(); x != mp.end(); ++x) {
+        pos = text.find(x->first);
+        while (pos != string::npos) {
+            text.replace(pos, x->first.length(), x->second);
+            pos = text.find(x->first);
+        }
+    }
+
+    /* size_t pos;
     while (pos != string::npos) {
         pos = text.find(toReplace);
         text.replace(pos, toReplace.length(), replaceWith);
-    }
+    } */
+
+    cout << text << "\n";
+
     return text;
 };
 
