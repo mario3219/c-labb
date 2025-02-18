@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <vector>
 #include "TagRemover.h"
 
 using namespace std;
@@ -14,7 +15,6 @@ TagRemover::TagRemover(std::istream& input) : text(""), result("") {
 }
 
 string TagRemover::specCharRemover(string& str) {
-    bool done = false;
     string toReplace = "test";
     string replaceWith = "new";
     size_t pos;
