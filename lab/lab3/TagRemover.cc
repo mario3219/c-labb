@@ -1,11 +1,7 @@
 #include <string>
-#include <vector>
-#include <fstream>
 #include <iostream>
 #include <algorithm>
-#include <unordered_set>
 #include <sstream>
-#include <map>
 #include "TagRemover.h"
 
 using namespace std;
@@ -18,7 +14,15 @@ TagRemover::TagRemover(std::istream& input) : text(""), result("") {
 }
 
 string TagRemover::specCharRemover(string& str) {
-    
+    bool done = false;
+    string toReplace = "test";
+    string replaceWith = "new";
+    size_t pos;
+    while (pos != string::npos) {
+        pos = str.find(toReplace);
+        str.replace(pos, toReplace.length(), replaceWith);
+    }
+    return str;
 };
 
 string TagRemover::getText() {
