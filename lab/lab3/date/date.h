@@ -11,6 +11,7 @@ public:
 
 	// new functions
 	friend std::ostream& operator<<(std::ostream& os, const Date& date);
+	friend std::ostream& operator>>(std::ostream& os, Date& date);
 
 	int getYear() const;       // get the year
 	int getMonth() const;      // get the month
