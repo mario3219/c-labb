@@ -15,9 +15,10 @@ bool test_tagRemover() {
     istringstream testStream1(test);
     TagRemover tr(testStream1);
     result = tr.removeTags();
-    cout << "result: " << result << "\n";
+    //cout << "result: " << result << "\n";
     if (result != test) {
         cout << "Failure at: This is a line without a tag" << "\n";
+        cout << "Result: " << result << "\n";
         return false;
     }
 
@@ -26,9 +27,10 @@ bool test_tagRemover() {
     TagRemover tr2(testStream2);
     goal = "This is  a line with one tag";
     result = tr2.removeTags();
-    cout << "result2: " << result << "\n";
+    //cout << "result2: " << result << "\n";
     if (result != goal) {
         cout << "Failure at: This is <tag tag> a line with one tag" << "\n";
+        cout << "Result: " << result << "\n";
         return false;
     }
     
@@ -38,10 +40,19 @@ bool test_tagRemover() {
 }
 
 void test_specCharRemover() {
-    string test = "Special chars: &lt;&gt;&nbsp;&amp";
+    cout << "test_specCharRemover - ";
+    
+    string test = "&lt;&gt;&nbsp;&amp";
     istringstream testStream1(test);
     TagRemover tr(testStream1);
-    tr.specCharRemover();
+    string result = tr.specCharRemover();
+
+    if (result == "<;>; ;&") {
+        cout << "Pass" << "\n";
+    } else {
+        cout << "Failure, got: " << result << "\n";
+    }
+
 }
 
 int main() {
