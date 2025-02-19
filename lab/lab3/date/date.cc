@@ -13,14 +13,19 @@ Date::Date() {
 	day = locTime->tm_mday;
 }
 
-Date::Date(int y, int m, int d) {
-	year = y;
-	month = m;
-	day = d;
+Date::Date(int y, int m, int d) : year(y), month(m), day(d) {
 }
 
-std::ostream& operator<<(std::ostream& os, const Date date) {
+std::ostream& operator<<(std::ostream& os, const Date& date) {
 	os << date.getYear() << "-" << date.getMonth() << "-" << date.getDay();
+	return os;
+}
+
+std::istream& operator>>(std::istream& os, Date& date) {
+	char temp1, temp2;
+
+	os >> date.year >> temp1 >> date.month >> temp2 >> date.day;
+
 	return os;
 }
 

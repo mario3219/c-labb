@@ -2,6 +2,7 @@
 #include <iomanip> // for setw and setfill
 #include "date.h"
 
+using std::cin;
 using std::cout;
 using std::endl;
 using std::setw;
@@ -21,7 +22,6 @@ void print(const Date& d) {
 int main() {
 	// Check input and output of dates. Uncomment the following when you 
 	// have added operator>> and operator<<.
-	/*
 	bool cont = true;
 	while (cont) {
 		cout << "Type a date: ";
@@ -39,7 +39,6 @@ int main() {
 			cout << "Output: " << aDate << endl;
 		}
 	}
-	*/
 	
 	// Check 'next' by creating an object describing today's date, then
 	// printing dates more than a month ahead
