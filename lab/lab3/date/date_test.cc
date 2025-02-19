@@ -13,6 +13,15 @@ using std::setfill;
  * function with an overloaded operator<<, and add an overloaded operator>>.
  *
  */
+
+template <typename T>
+std::string toString(const T& object) {
+	std::ostringstream buffer;
+	buffer << object;
+
+	return buffer.str();
+}
+
 void print(const Date& d) {
 	cout << setw(4) << setfill('0') << d.getYear() << '-';
 	cout << setw(2) << setfill('0') << d.getMonth() << '-';
@@ -20,27 +29,15 @@ void print(const Date& d) {
 }
 
 int main() {
-	// Check input and output of dates. Uncomment the following when you 
-	// have added operator>> and operator<<.
-	bool cont = true;
-	while (cont) {
-		cout << "Type a date: ";
-		Date aDate;
-		cin >> aDate;
-		if (cin.eof()) {
-			cont = false;
-		} else if (!cin.good()) {
-			cout << "Wrong input format" << endl;
-			// restore stream state and ignore the rest of the line
-			cin.clear();
-			cin.ignore(10000, '\n');
-		}
-		else {
-			cout << "Output: " << aDate << endl;
-		}
-	}
-	
-	// Check 'next' by creating an object describing today's date, then
+
+	cout << "Testing toString() template: " << "\n";
+	double d = 1.23;
+	Date date(2022,12,1);
+	std::string sd = toString(d);
+	std::string sdate = toString(date);
+	cout << sd << "\n" << sdate << "\n";
+
+		// Check 'next' by creating an object describing today's date, then
 	// printing dates more than a month ahead
 	cout << "--- Today and more than a month ahead:" << endl;
 	Date d1;
@@ -60,4 +57,24 @@ int main() {
 	d2.next();
 	print(d2);
 	cout << endl;
+
+	// Check input and output of dates. Uncomment the following when you 
+	// have added operator>> and operator<<.
+	bool cont = true;
+	while (cont) {
+		cout << "Type a date: ";
+		Date aDate;
+		cin >> aDate;
+		if (cin.eof()) {
+			cont = false;
+		} else if (!cin.good()) {
+			cout << "Wrong input format" << endl;
+			// restore stream state and ignore the rest of the line
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else {
+			cout << "Output: " << aDate << endl;
+		}
+	}
 }
