@@ -1,6 +1,7 @@
 #include "SieveOfEratoshenes.h"
 #include <string>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -19,9 +20,23 @@ string SieveOfEratoshenes::process(){
         if (s[i] == 'P') {
             for (int j = i*2; j < s.length(); j+=i){
                 s[j] = 'C';
-                print();
+                //print();
             }
         }
     }
     return s;
+}
+
+vector<int> SieveOfEratoshenes::primes() {
+    size_t i = 0;
+    vector<int> primes;
+
+    while (i != string::npos){
+        i = s.find("P", i);
+        if (i != string::npos){
+            primes.push_back(static_cast<int>(i));
+            i++;
+        }
+    }
+    return primes;
 }
