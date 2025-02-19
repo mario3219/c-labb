@@ -22,7 +22,7 @@ std::ostream& operator<<(std::ostream& os, const Date& date) {
 }
 
 std::istream& operator>>(std::istream& os, Date& date) {
-
+	std::cin.clear();
 
 	char temp1, temp2;
 	int temp_year, temp_month, temp_day;
