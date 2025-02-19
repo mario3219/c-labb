@@ -33,10 +33,6 @@ string TagRemover::specCharRemover() {
     return text;
 };
 
-string TagRemover::getText() {
-    return text;
-}
-
 string TagRemover::removeTags() {
 
     size_t pos1 = text.find("<");
@@ -60,4 +56,12 @@ string TagRemover::removeTags() {
     }
     text = temp;
     return text; */
+}
+
+void print(std::istream& output) {
+    cout << text << "\n";
+}
+
+string TagRemover::getText() {
+    return text;
 }
