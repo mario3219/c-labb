@@ -12,7 +12,6 @@ TagRemover::TagRemover(std::istream& input) : text("") {
     while (getline(input, str)) {
         text += str;
     }
-    cout << "constructor: " << text << "\n";
 }
 
 string TagRemover::specCharRemover() {
@@ -59,8 +58,8 @@ string TagRemover::removeTags() {
     return text; */
 }
 
-void TagRemover::print(std::istream& output) {
-    cout << text << "\n";
+void TagRemover::print(std::ostream& output) {
+    output << text << "\n";
 }
 
 string TagRemover::getText() {

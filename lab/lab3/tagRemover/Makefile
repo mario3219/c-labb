@@ -25,8 +25,13 @@ all: $(PROGS)
 #build:
 # /usr/share/dict
 
+test_TagRemover_htmlfile: TagRemover.o test_TagRemover_htmlfile.o
+	$(CC) -o test_TagRemover_htmlfile TagRemover.o test_TagRemover_htmlfile.o
+
 test_TagRemover: test_TagRemover.o TagRemover.o
 	$(CC) -o test_TagRemover test_TagRemover.o TagRemover.o
+	rm result.txt
+	./test_TagRemover < test.html > result.txt
 
 # Phony targets
 .PHONY: all clean distclean

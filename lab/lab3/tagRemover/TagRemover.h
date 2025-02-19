@@ -8,7 +8,7 @@ class TagRemover {
         TagRemover(std::istream& input);
         string specCharRemover();
         string removeTags();
-        void print(std::istream& output);
+        void print(std::ostream& output);
         string getText();
     private:
         string text;

@@ -58,11 +58,11 @@ void test_specCharRemover() {
 int main() {
     test_tagRemover();
     test_specCharRemover();
-    return 0;
-}
 
-int main() {
-    test_tagRemover();
+    TagRemover tr(std::cin);
+    tr.removeTags();
+    tr.specCharRemover();
+    tr.print(std::cout);
     return 0;
 }
     
