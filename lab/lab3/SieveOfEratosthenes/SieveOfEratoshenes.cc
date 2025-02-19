@@ -4,15 +4,13 @@
 
 using namespace std;
 
-string s;
-
-SieveOfEratoshenes::SieveOfEratoshenes(int n){
+SieveOfEratoshenes::SieveOfEratoshenes(int n) : s("") {
     s = "";
     for (int i = 0; i < n; i++){
         s += to_string(i);
     }
 }
 
-void SieveOfEratoshenes::printString(){
+void SieveOfEratoshenes::print(){
     cout << s;
 }

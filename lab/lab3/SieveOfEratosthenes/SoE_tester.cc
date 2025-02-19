@@ -3,6 +3,6 @@
 int main()
 {
     SieveOfEratoshenes soe(10);
-    soe.printString();
+    soe.print();
     return 0;
 }

@@ -1,11 +1,12 @@
 #define SieveOfEratoshenes_H
+#include <string>
 
 using namespace std;
 
 class SieveOfEratoshenes {
     public:
         SieveOfEratoshenes(int n);
-        void printString();
+        void print();
     private:
         string s;
-};
+    };
