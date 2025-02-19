@@ -6,6 +6,7 @@ using namespace std;
 class TagRemover {
     public:
         TagRemover(std::istream& input);
+        string specCharRemover();
         string removeTags();
         string removeSpecChars();
         string print();

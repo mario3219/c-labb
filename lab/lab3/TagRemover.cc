@@ -1,16 +1,13 @@
 #include <string>
-#include <vector>
-#include <fstream>
 #include <iostream>
 #include <algorithm>
-#include <unordered_set>
 #include <sstream>
 #include <map>
 #include "TagRemover.h"
 
 using namespace std;
 
-TagRemover::TagRemover(std::istream& input) : text(""), result("") {
+TagRemover::TagRemover(std::istream& input) : text("") {
     string str;
     while (getline(input, str)) {
         text += str;
@@ -18,28 +15,59 @@ TagRemover::TagRemover(std::istream& input) : text(""), result("") {
     cout << "constructor: " << text << "\n";
 }
 
+<<<<<<< HEAD
 // string TagRemover::specCharRemover(string& str) {
     
 // };
+=======
+string TagRemover::specCharRemover() {
+
+    cout << text << "\n";
+
+    string temp;
+    map<string,string> mp;
+    size_t pos;
+    mp["&lt"] = "<";
+    mp["&gt"] = ">";
+    mp["&nbsp"] = " ";
+    mp["&amp"] = "&";
+
+    for (auto x = mp.begin(); x != mp.end(); ++x) {
+        pos = text.find(x->first);
+        while (pos != string::npos) {
+            text.replace(pos, x->first.length(), x->second);
+            pos = text.find(x->first);
+        }
+    }
+
+    /* size_t pos;
+    while (pos != string::npos) {
+        pos = text.find(toReplace);
+        text.replace(pos, toReplace.length(), replaceWith);
+    } */
+
+    cout << text << "\n";
+
+    return text;
+};
+>>>>>>> f00b326ddf0ec50b364169a053365d337bb1b03a
 
 string TagRemover::getText() {
     return text;
 }
 
-string TagRemover::getResult() {
-    return result;
-}
-
 string TagRemover::removeTags() {
     bool tag = false;
+    string temp;
     for (char c : text) {
         if (c == '<') {
             tag = true;
         } else if (c == '>') {
             tag = false;
         } else if (!tag) {
-            result += c;
+            temp += c;
         }
     }
-    return result;
+    text = temp;
+    return text;
 }
