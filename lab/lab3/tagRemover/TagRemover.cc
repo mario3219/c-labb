@@ -15,11 +15,6 @@ TagRemover::TagRemover(std::istream& input) : text("") {
     cout << "constructor: " << text << "\n";
 }
 
-<<<<<<< HEAD
-// string TagRemover::specCharRemover(string& str) {
-    
-// };
-=======
 string TagRemover::specCharRemover() {
     string temp;
     map<string,string> mp;
@@ -38,7 +33,6 @@ string TagRemover::specCharRemover() {
     }
     return text;
 };
->>>>>>> f00b326ddf0ec50b364169a053365d337bb1b03a
 
 string TagRemover::removeTags() {
 
@@ -65,7 +59,7 @@ string TagRemover::removeTags() {
     return text; */
 }
 
-void print(std::istream& output) {
+void TagRemover::print(std::istream& output) {
     cout << text << "\n";
 }
 
