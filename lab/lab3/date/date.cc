@@ -22,9 +22,20 @@ std::ostream& operator<<(std::ostream& os, const Date& date) {
 }
 
 std::istream& operator>>(std::istream& os, Date& date) {
-	char temp1, temp2;
 
-	os >> date.year >> temp1 >> date.month >> temp2 >> date.day;
+
+	char temp1, temp2;
+	int temp_year, temp_month, temp_day;
+
+	os >> temp_year >> temp1 >> temp_month >> temp2 >> temp_day;
+
+	if (temp1 != '-' || temp2 != '-' || temp_year < 1 || temp_month < 1 || temp_month > 12 || temp_day < 1 || temp_day > date.daysPerMonth[temp_month]) {
+		std::cin.setstate(std::ios::failbit);
+	}
+
+	date.year = temp_year;
+	date.month = temp_month;
+	date.day = temp_day;
 
 	return os;
 }
@@ -43,7 +54,7 @@ int Date::getDay() const {
 
 void Date::next() {
 	day += 1;
-	if (day > daysPerMonth[0]) {
+	if (day > daysPerMonth[month-1]) {
 		month += 1;
 		day = 1;
 	}
