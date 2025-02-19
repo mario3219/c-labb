@@ -15,9 +15,6 @@ TagRemover::TagRemover(std::istream& input) : text("") {
 }
 
 string TagRemover::specCharRemover() {
-
-    cout << text << "\n";
-
     string temp;
     map<string,string> mp;
     size_t pos;
@@ -33,15 +30,6 @@ string TagRemover::specCharRemover() {
             pos = text.find(x->first);
         }
     }
-
-    /* size_t pos;
-    while (pos != string::npos) {
-        pos = text.find(toReplace);
-        text.replace(pos, toReplace.length(), replaceWith);
-    } */
-
-    cout << text << "\n";
-
     return text;
 };
 
@@ -50,7 +38,16 @@ string TagRemover::getText() {
 }
 
 string TagRemover::removeTags() {
-    bool tag = false;
+
+    size_t pos1 = text.find("<");
+    size_t pos2 = text.find(">");
+    while (pos1 != string::npos && pos2 != string::npos) {
+        text.erase(pos1, pos2-pos1+1);
+        pos1 = text.find("<");
+        pos2 = text.find(">");
+    } return text;
+
+    /* bool tag = false;
     string temp;
     for (char c : text) {
         if (c == '<') {
@@ -62,5 +59,5 @@ string TagRemover::removeTags() {
         }
     }
     text = temp;
-    return text;
+    return text; */
 }
