@@ -7,6 +7,7 @@ class SieveOfEratoshenes {
     public:
         SieveOfEratoshenes(int n);
         void print();
+        string process();
     private:
         string s;
     };
