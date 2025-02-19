@@ -18,14 +18,16 @@ CXXFLAGS += $(DEPFLAGS)
 LDFLAGS = -g
 
 # Targets
-PROGS = compiler
+PROGS = date_test
 all: $(PROGS)
 
 # Targets rely on implicit rules for compiling and linking
 #build:
 # /usr/share/dict
 
-compiler: date.o date_test.o
+date_test: date.o date_test.o
+	$(CC) -o date_test date.o date_test.o
+	./date_test
 
 # Phony targets
 .PHONY: all clean distclean
