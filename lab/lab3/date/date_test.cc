@@ -22,13 +22,31 @@ std::string toString(const T& object) {
 	return buffer.str();
 }
 
+template<typename T>
+T string_cast(std::string s) {
+	std::istringstream buffer(s);
+	T t;
+	buffer >> t;
+	return t;
+}
+
 void print(const Date& d) {
 	cout << setw(4) << setfill('0') << d.getYear() << '-';
 	cout << setw(2) << setfill('0') << d.getMonth() << '-';
 	cout << setw(2) << setfill('0') << d.getDay();
 }
 
+
 int main() {
+
+	try {
+		int i = string_cast<int>("123");
+		double d = string_cast<double>("12.34");
+		Date date = string_cast<Date>("2015-01-10");
+		cout << "int:" << i << "\ndouble" << d << "\ndate" << date;
+		} catch (std::invalid_argument& e) {
+		cout << "Error: " << e.what() << endl;
+	}
 
 	cout << "Testing toString() template: " << "\n";
 	double d = 1.23;
