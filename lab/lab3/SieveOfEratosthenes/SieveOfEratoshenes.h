@@ -1,4 +1,6 @@
+#ifndef SieveOfEratoshenes_H
 #define SieveOfEratoshenes_H
+
 #include <string>
 
 using namespace std;
@@ -11,3 +13,5 @@ class SieveOfEratoshenes {
     private:
         string s;
     };
+
+#endif
