@@ -2,7 +2,8 @@
 
 int main()
 {
-    SieveOfEratoshenes soe(100);
+    SieveOfEratoshenes soe(35);
+    soe.process();
     soe.print();
     return 0;
 }
