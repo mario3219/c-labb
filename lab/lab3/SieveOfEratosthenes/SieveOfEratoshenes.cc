@@ -5,10 +5,7 @@
 using namespace std;
 
 SieveOfEratoshenes::SieveOfEratoshenes(int n) : s("") {
-    s = "";
-    for (int i = 0; i < n; i++){
-        s += to_string(i);
-    }
+    s.append(n, 'C');
 }
 
 void SieveOfEratoshenes::print(){
