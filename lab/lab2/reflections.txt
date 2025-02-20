@@ -1,0 +1,14 @@
+1) std::cin >> s as a bool value will return true as long as the stream is "open" meaning there could be more to read. Typically exited using a keyboard
+command like ctrl+D
+
+2) No, we used "getline()". If we were to use the ">>" operator instead, we would need to specify the txt file as our input stream outside the class when
+running the executable, such as in the makefile. (see lab3) 
+
+3) An array of type int, with 10 indexes
+
+4) Because when comparing an unsigned value to a signed value, the compiler converts the signed value to unsigned. This will create errors for example
+in the case of comparing -1 to 1. (-1 converts to 1)
+
+5) In the case of using resize(5) on an empty string vector, 5 ("") elements will be added to the vector using the default string constructor. However,
+another value than "" may be specified in the resize function call, e.g. 'resize(5,"hej")'
+
