@@ -1,0 +1,25 @@
+1) 
+
+2) Makes the constructor general purpose, can handle both files and
+keyboard inputs.
+
+3) Depending on the definition of process, we processed the file by looking
+for tags and special characters over the whole file at once. However, in the constructor,
+we imported line for line to generate the string, representing the whole file.
+
+4) Yes, by using for example .str() member function.
+
+5) No
+
+6) By using stream_name.good(), which returns true or false.
+
+7) stream_name.eof(), which returns a boolean.
+
+8) Our version returns 123. To implement exception handling, we would need to
+move away from the template function and implement operator>> error throwing,
+but in the example for <int>, no error was thrown, so an exception has to
+be implemented inside the template class.
+
+9) Depends if the template type is the return value or the argument.
+The intent decides. In the second case, we need to know the return value,
+and should therefore be specified as a type argument in the call.
