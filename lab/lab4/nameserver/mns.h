@@ -27,12 +27,13 @@ class MNS : public NameServerInterface {
         };
 
         bool remove(const HostName& name) {
-            return map.erase(name);
+            return map.erase(name) > 0;
         };
 
         IPAddress lookup(const HostName& name) const {
-            return 0;
-        };
+            auto it = map.find(name);
+            return (it != map.end()) ? it->second : NON_EXISTING_ADDRESS;
+        }
 
     private:
         map<HostName, IPAddress> map;
