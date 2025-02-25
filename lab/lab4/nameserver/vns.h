@@ -38,7 +38,7 @@ class VNS : public NameServerInterface {
             size_t before = pairs.size();
             
             pairs.erase(
-                remove_if(pairs.begin(),pairs.end(),
+                find_if(pairs.begin(),pairs.end(),
                 // lambda function, returns true if checked pair matches name
                 [&name](const Pair& pair) {return pair.name == name;}
                 ), pairs.end()
