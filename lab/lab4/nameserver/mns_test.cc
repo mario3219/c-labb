@@ -47,7 +47,6 @@ void test_remove() {
     }
 }
 
-
 int main() {
     test_Constructor();
     test_insert();

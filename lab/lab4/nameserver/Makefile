@@ -35,6 +35,11 @@ mns:
 
 mns_test: mns_test.o
 
+umns:
+	$(CC) -c $(CXXFLAGS) umns.h
+
+umns_test: umns_test.o
+
 # Phony targets
 .PHONY: all clean distclean
 
