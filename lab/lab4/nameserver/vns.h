@@ -3,12 +3,13 @@
 
 #include "nameserverinterface.h"
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 // create data structure for pairs
-struct pairs{
-    pairs(HostName name, IPAddress address):name(name),address(address) {}
+struct Pair{
+    Pair(HostName name, IPAddress address):name(name),address(address) {}
     HostName name;
     IPAddress address;
 };
@@ -18,11 +19,11 @@ class VNS : public NameServerInterface {
         // constructors
         VNS()=default;
 
-        VNS(pairs pair) {
-            pairs_vector.push_back(pair);};
+        VNS(Pair pair) {
+            pairs.push_back(pair);};
         
         VNS(HostName name, IPAddress address) {
-            pairs_vector.push_back(pairs(name,address));
+            pairs.push_back(Pair(name,address));
         };
 
         // default destructor
@@ -30,18 +31,43 @@ class VNS : public NameServerInterface {
 
         // functions
         void insert(const HostName& name, const IPAddress& address) {
+            pairs.push_back(Pair(name,address));
         };
 
         bool remove(const HostName& name) {
-            return false;
+            size_t before = pairs.size();
+            
+            pairs.erase(
+                remove_if(pairs.begin(),pairs.end(),
+                // lambda function, returns true if checked pair matches name
+                [&name](const Pair& pair) {return pair.name == name;}
+                ), pairs.end()
+            );
+
+            size_t after = pairs.size();
+            
+            // if the size of pairs vector is unchanged, removal has failed
+            if (before != after) {
+                return true;
+            } return false;
         };
 
         IPAddress lookup(const HostName& name) const {
-            return 0;
+
+            auto found_pair = find_if(
+                pairs.begin(), pairs.end(),
+                // lambda function, returns true if checked pair matches name
+                [&name](const Pair& pair) {return pair.name == name;}
+            );
+
+            // if the iterator reached the end, the pair doesn't exist
+            if (found_pair != pairs.end()) {
+                return found_pair->address;
+            } return NON_EXISTING_ADDRESS;
         };
 
     private:
-        vector<pairs> pairs_vector;
+        vector<Pair> pairs;
 };
 
 #endif
