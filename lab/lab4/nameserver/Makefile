@@ -18,12 +18,14 @@ CXXFLAGS += $(DEPFLAGS)
 LDFLAGS = -g
 
 # Targets
-PROGS = vns_test
-PROGS_H = vns
+PROGS = vns_test mns_test
+ALL = vns vns_test mns mns_test
 
 # Targets rely on implicit rules for compiling and linking
 #build:
 # /usr/share/dict
+
+all: $(ALL)
 
 vns:
 	$(CC) -c $(CXXFLAGS) vns.h
@@ -45,8 +47,8 @@ umns_test: umns_test.o
 
 # Standard clean
 clean:
-	rm -f *.o $(PROGS)
-	rm -f *.h.gch $(PROGS_H)
+	rm -f *.o
+	rm -f *.h.gch
 	rm $(PROGS)
 
 distclean: clean
