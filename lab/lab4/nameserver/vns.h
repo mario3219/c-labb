@@ -36,7 +36,7 @@ class VNS : public NameServerInterface {
             return false;
         };
 
-        IPAddress lookup(const HostName& name) {
+        IPAddress lookup(const HostName& name) const {
             return 0;
         };
 
