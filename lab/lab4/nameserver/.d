@@ -1,2 +1,2 @@
-vns: vns.h nameserverinterface.h
+mns: mns.h nameserverinterface.h
 nameserverinterface.h:

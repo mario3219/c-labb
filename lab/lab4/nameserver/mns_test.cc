@@ -9,7 +9,7 @@ void test_Constructor() {
     MNS test;
 
     // testing input pair
-    Pair pair("test",123);
+    std::pair<HostName, IPAddress> pair("test",123);
     MNS vns(pair);
 
     // testing input HostName, IPAdress

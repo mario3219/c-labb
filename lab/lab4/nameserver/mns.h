@@ -11,11 +11,11 @@ class MNS : public NameServerInterface {
         // constructors
         MNS()=default;
 
-        VNS(std::pair pair) {
-            pairs_vector.push_back(pair);};
+        MNS(std::pair<HostName, IPAddress> pair) {
+            mappen.insert(pair);};
 
         MNS(HostName name, IPAddress address) {
-            map.insert(std::make_pair(name, address))
+            mappen.insert(std::make_pair(name, address));
         };
 
         // default destructor
@@ -23,20 +23,20 @@ class MNS : public NameServerInterface {
 
         // functions
         void insert(const HostName& name, const IPAddress& address) {
-            map.emplace(name, address)
+            mappen.emplace(name, address);
         };
 
         bool remove(const HostName& name) {
-            return map.erase(name) > 0;
+            return mappen.erase(name) > 0;
         };
 
         IPAddress lookup(const HostName& name) const {
-            auto it = map.find(name);
-            return (it != map.end()) ? it->second : NON_EXISTING_ADDRESS;
+            auto it = mappen.find(name);
+            return (it != mappen.end()) ? it->second : NON_EXISTING_ADDRESS;
         }
 
     private:
-        map<HostName, IPAddress> map;
+        map<HostName, IPAddress> mappen;
 };
 
 #endif

@@ -30,6 +30,11 @@ vns:
 
 vns_test: vns_test.o
 
+mns:
+	$(CC) -c $(CXXFLAGS) mns.h
+
+mns_test: mns_test.o
+
 # Phony targets
 .PHONY: all clean distclean
 
