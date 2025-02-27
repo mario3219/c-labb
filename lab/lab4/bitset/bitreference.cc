@@ -1,12 +1,13 @@
 #include "bitreference.h"
 #include "bitset.h"
+#include <iostream> //for debugging
 
 BitReference& BitReference::operator=(bool b) {
 	//
 	// *** IMPLEMENT ***
 	// This corresponds to the set() function in SimpleBitset.
 	//
-	 // for bs[i] = b
+	// for bs[i] = b
 	if (b) {
 		*p_bits |= 1L << pos;
 	} else {
@@ -21,15 +22,16 @@ BitReference& BitReference::operator=(const BitReference& rhs) {
 	// Same as operator=(bool), but the bit is picked from rhs
 	//
 	// for bs[i] = bs[j]
-	bool b = (*p_bits & (1L << pos)) != 0;
 
-	auto bit_1 = *p_bits << pos;
-	auto bit_2 = *rhs.p_bits << rhs.pos;
-
-	if (b) {
-		bit_1 |= bit_2;
-	} else {
-		bit_2 &= ~ bit_2;
+	bool a = (*p_bits & (1L << pos)) != 0;			//kollar om this är 1 eller 0 i pos
+	bool b = (*rhs.p_bits & (1L << rhs.pos)) != 0;	//kollar om rhs är 1 eller 0 i pos
+	
+	if (!a && b) {
+		// om this är 0 och rhs är 1, ansätter till 1 i this på pos
+		*p_bits |= 1L << pos;
+	} else if (a && !b) {
+		// om this är 1 och rhs är 0, ansätter till 0 i this på pos
+		*p_bits &= ~ (1L << pos);
 	}
 	
 	return *this;
@@ -40,6 +42,6 @@ BitReference::operator bool() const {
 	// *** IMPLEMENT ***
 	// This corresponds to the get() function in SimpleBitset.
 	//
-	 // for b = bs[i]
+	// for b = bs[i]
 	return (*p_bits & (1L << pos)) != 0;
 }

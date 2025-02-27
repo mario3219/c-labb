@@ -33,6 +33,9 @@ int main() {
 	while (pos != bs.size() && cleared != 5) {
 		if (bs[pos]) {
 			bs[pos] = !bs[pos];
+			/* Fundering: här kallas !bs[pos], vilket blir en boolean.
+			Man kan tro att operator=(const BitReference& rhs) kallas, men
+			egentligen operator=(bool b)*/
 			++cleared;
 		}
 		++pos;
