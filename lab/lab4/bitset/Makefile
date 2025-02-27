@@ -18,13 +18,21 @@ CXXFLAGS += $(DEPFLAGS)
 LDFLAGS = -g
 
 # Targets
-PROGS = simplebitsettest
+PROGS = simplebitsettest bitsettest1
 
-# Targets rely on implicit rules for compiling and linking
-#build:
-# /usr/share/dict
+# Compile executables
 
 simplebitsettest: simplebitsettest.o simplebitset.o
+
+bitsettest1: bitset.o bitreference.o
+
+# Test-compiling for errors
+
+bitset:
+	$(CC) $(CXXFLAGS) -c bitset.cc
+
+bitreference:
+	$(CC) $(CXXFLAGS) -c bitreference.cc
 
 # Phony targets
 .PHONY: all clean distclean
