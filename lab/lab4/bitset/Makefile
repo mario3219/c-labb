@@ -18,13 +18,15 @@ CXXFLAGS += $(DEPFLAGS)
 LDFLAGS = -g
 
 # Targets
-PROGS = simplebitsettest bitsettest1
+PROGS = simplebitsettest bitsettest1 bitsettest2
 
 # Compile executables
 
 simplebitsettest: simplebitsettest.o simplebitset.o
 
-bitsettest1: bitset.o bitreference.o
+bitsettest1: bitsettest1.o bitset.o bitreference.o
+
+bitsettest2: bitsettest2.o bitset.o bitreference.o
 
 # Test-compiling for errors
 
@@ -33,6 +35,9 @@ bitset:
 
 bitreference:
 	$(CC) $(CXXFLAGS) -c bitreference.cc
+
+bitsetiterator:
+	$(CC) $(CXXFLAGS) -c bitsetiterator.cc
 
 # Phony targets
 .PHONY: all clean distclean

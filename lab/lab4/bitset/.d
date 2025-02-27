@@ -1,3 +1,4 @@
-bitreference: bitreference.cc bitreference.h bitset.h
-bitreference.h:
+bitset: bitset.cc bitset.h bitreference.h bitsetiterator.h
 bitset.h:
+bitreference.h:
+bitsetiterator.h:
