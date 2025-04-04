@@ -17,13 +17,16 @@ using std::endl;
 /*
  * Read an integer from a client.
  */
-int readNumber(const std::shared_ptr<Connection>& conn)
+string readNumber(const std::shared_ptr<Connection>& conn)
 {
-        unsigned char byte1 = conn->read();
-        unsigned char byte2 = conn->read();
-        unsigned char byte3 = conn->read();
-        unsigned char byte4 = conn->read();
-        return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+        char byte1 = static_cast<char> (conn->read());
+        char byte2 = static_cast<char> (conn->read());
+        char byte3 = static_cast<char> (conn->read());
+        char byte4 = static_cast<char> (conn->read());
+        string result;
+        result = string() + byte1 + byte2 + byte3 + byte4;
+        cout << result << byte1 << byte2 << byte3 << byte4 << "\n";
+        return result;
 }
 
 /*
@@ -62,15 +65,7 @@ Server init(int argc, char* argv[])
 
 void process_request(std::shared_ptr<Connection>& conn)
 {
-        int    nbr = readNumber(conn);
-        string result;
-        if (nbr > 0) {
-                result = "positive";
-        } else if (nbr == 0) {
-                result = "zero";
-        } else {
-                result = "negative";
-        }
+        string result = readNumber(conn);
         writeString(conn, result);
 }
 

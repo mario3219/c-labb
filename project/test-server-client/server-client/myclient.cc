@@ -15,12 +15,11 @@ using std::endl;
 /*
  * Send an integer to the server as four bytes.
  */
-void writeNumber(const Connection& conn, int value)
+void writeNumber(const Connection& conn, string str)
 {
-        conn.write((value >> 24) & 0xFF);
-        conn.write((value >> 16) & 0xFF);
-        conn.write((value >> 8) & 0xFF);
-        conn.write(value & 0xFF);
+        for (char c : str) {
+             conn.write(c);   
+        }
 }
 
 /*
@@ -67,10 +66,14 @@ int app(const Connection& conn)
 {
         cout << "Type a number: ";
         int nbr;
+
+        // new:
+        string str = "test";
+
         while (cin >> nbr) {
                 try {
                         cout << nbr << " is ...";
-                        writeNumber(conn, nbr);
+                        writeNumber(conn, str);
                         string reply = readString(conn);
                         cout << " " << reply << endl;
                         cout << "Type another number: ";
