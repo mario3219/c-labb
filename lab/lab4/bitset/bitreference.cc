@@ -25,7 +25,7 @@ BitReference& BitReference::operator=(const BitReference& rhs) {
 
 	bool a = (*p_bits & (1L << pos)) != 0;			//kollar om this är 1 eller 0 i pos
 	bool b = (*rhs.p_bits & (1L << rhs.pos)) != 0;	//kollar om rhs är 1 eller 0 i pos
-	
+	std::cout <<"test"<<"\n";
 	if (!a && b) {
 		// om this är 0 och rhs är 1, ansätter till 1 i this på pos
 		*p_bits |= 1L << pos;
