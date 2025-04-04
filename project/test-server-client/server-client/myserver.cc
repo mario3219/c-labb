@@ -15,18 +15,16 @@ using std::cerr;
 using std::endl;
 
 /*
- * Read an integer from a client.
+ * Read a string from a client.
  */
 string readNumber(const std::shared_ptr<Connection>& conn)
 {
-        char byte1 = static_cast<char> (conn->read());
-        char byte2 = static_cast<char> (conn->read());
-        char byte3 = static_cast<char> (conn->read());
-        char byte4 = static_cast<char> (conn->read());
-        string result;
-        result = string() + byte1 + byte2 + byte3 + byte4;
-        cout << result << byte1 << byte2 << byte3 << byte4 << "\n";
-        return result;
+        string s;
+        char   ch;
+        while ((ch = conn->read()) != '$') {
+                s += ch;
+        }
+        return s;
 }
 
 /*

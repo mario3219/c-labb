@@ -13,13 +13,14 @@ using std::cout;
 using std::cerr;
 using std::endl;
 /*
- * Send an integer to the server as four bytes.
+ * Send a string to the server
  */
-void writeNumber(const Connection& conn, string str)
+void writeString(const Connection& conn, string str)
 {
         for (char c : str) {
              conn.write(c);   
         }
+        conn.write('$'); // marks end of message
 }
 
 /*
@@ -64,19 +65,16 @@ Connection init(int argc, char* argv[])
 
 int app(const Connection& conn)
 {
-        cout << "Type a number: ";
-        int nbr;
+        cout << "Type a string: ";
+        string str;
 
-        // new:
-        string str = "test";
-
-        while (cin >> nbr) {
+        while (cin >> str) {
                 try {
-                        cout << nbr << " is ...";
-                        writeNumber(conn, str);
+                        cout << str << " is ...";
+                        writeString(conn, str);
                         string reply = readString(conn);
                         cout << " " << reply << endl;
-                        cout << "Type another number: ";
+                        cout << "Type another string: ";
                 } catch (ConnectionClosedException&) {
                         cout << " no reply from server. Exiting." << endl;
                         return 1;
