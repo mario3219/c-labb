@@ -23,7 +23,7 @@ LDFLAGS =   -g -Llib
 # Targets
 
 all: lib/libclientserver.a
-	make -C example
+	make -C server-client
 
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
@@ -46,7 +46,7 @@ distclean: clean
 	-rm lib/libclientserver.a
 	-rmdir lib
 	-rm $(SRC:.cc=.d) 
-	make -C example distclean
+	make -C server-client distclean
 
 
 # Include the *.d files
