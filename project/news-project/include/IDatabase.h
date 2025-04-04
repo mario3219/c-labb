@@ -27,9 +27,9 @@ public:
 
     virtual std::vector<Newsgroup> listNewsgroups() const = 0;
     virtual bool createNewsgroup(const std::string &name) = 0;
-    virtual bool deleteNewsgroup(int id) = 0;
+    virtual bool deleteNewsgroup(std::string newsgroup_name) = 0;
 
-    virtual std::vector<Article> listArticles(int newsgroupId) const = 0;
+    virtual std::vector<Article> listArticles(std::string Newsgroup) const = 0;
     virtual bool createArticle(std::string newsgroup, const std::string &title, const std::string &author, const std::string &content) = 0;
     virtual bool deleteArticle(std::string newsgroup, int articleId) = 0;
     virtual Article getArticle(std::string newsgroup, int articleId) const = 0;
