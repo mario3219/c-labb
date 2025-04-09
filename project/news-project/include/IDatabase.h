@@ -17,7 +17,7 @@ struct Newsgroup
 {
     int id;
     std::string name;
-    std::unordered_multimap<std::string, Article> articles;
+    std::unordered_map<int, Article> articles;
 };
 
 class IDatabase

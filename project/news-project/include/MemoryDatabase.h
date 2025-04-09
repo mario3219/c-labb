@@ -20,5 +20,5 @@ private:
     int nextNewsgroupId = 1;
     int nextArticleId = 1;
 
-    std::map<std::string, Newsgroup> newsgroups; // key = newsgroup id
+    std::map<std::string, Newsgroup> newsgroups;
 };
