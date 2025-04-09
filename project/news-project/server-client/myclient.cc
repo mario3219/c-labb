@@ -1,6 +1,8 @@
 /* myclient.cc: sample client program */
 #include "connection.h"
 #include "connectionclosedexception.h"
+#include "CommandHandler.h"
+#include "MessageHandler.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -12,34 +14,49 @@ using std::cin;
 using std::cout;
 using std::cerr;
 using std::endl;
-/*
- * Send an integer to the server as four bytes.
- */
-void writeNumber(const Connection& conn, int value)
-{
-        conn.write((value >> 24) & 0xFF);
-        conn.write((value >> 16) & 0xFF);
-        conn.write((value >> 8) & 0xFF);
-        conn.write(value & 0xFF);
-}
 
-/*
- * Read a string from the server.
- */
-string readString(const Connection& conn)
+/* Client Methods */
+
+void write(const Connection& conn, int value) {}
+
+string read(const Connection& conn) {return "empty";}
+
+/* --------------------------------------Client runtime--------------------------------------------*/
+
+int app(const Connection& conn)
 {
-        string s;
-        char   ch;
-        while ((ch = conn.read()) != '$') {
-                s += ch;
+        /*
+        Insert text-based UI for user inputs
+        */
+
+        cout << "Welcome to our server! Sorry, it is under development\n";
+
+        bool RUNTIME = true;    // set to false if the user wants to exit
+        string usr_input;
+
+        while (RUNTIME || cin >> usr_input) {
+                /* Input client methods here */
+                try {
+                        /* SUGGESTED FORMAT
+                        if (usr_input == "list groups") {
+                                commandhandler.getArticles
+                        }
+                        */
+                        cout << "No available methods so far\n";
+                        RUNTIME = false;
+                /* Closed connection handler */
+                } catch (ConnectionClosedException&) {
+                        cout << " no reply from server. Exiting." << endl;
+                        return 1;
+                }
         }
-        return s;
+        cout << "\nexiting.\n";
+        return 0;
 }
 
-/* Creates a client for the given args, if possible.
- * Otherwise exits with error code.
- */
-Connection init(int argc, char* argv[])
+/* --------------------------------------Client initializers - don't touch--------------------------------------------*/
+
+Connection init(int argc, char* argv[]) 
 {
         if (argc != 3) {
                 cerr << "Usage: myclient host-name port-number" << endl;
@@ -61,26 +78,6 @@ Connection init(int argc, char* argv[])
         }
 
         return conn;
-}
-
-int app(const Connection& conn)
-{
-        cout << "Type a number: ";
-        int nbr;
-        while (cin >> nbr) {
-                try {
-                        cout << nbr << " is ...";
-                        writeNumber(conn, nbr);
-                        string reply = readString(conn);
-                        cout << " " << reply << endl;
-                        cout << "Type another number: ";
-                } catch (ConnectionClosedException&) {
-                        cout << " no reply from server. Exiting." << endl;
-                        return 1;
-                }
-        }
-        cout << "\nexiting.\n";
-        return 0;
 }
 
 int main(int argc, char* argv[])

@@ -14,28 +14,40 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-/*
- * Read an integer from a client.
- */
-int readNumber(const std::shared_ptr<Connection>& conn)
+/* --------------------------------------Server methods--------------------------------------------*/
+
+int readNumber(const std::shared_ptr<Connection>& conn) {return 0;}
+
+void writeString(const std::shared_ptr<Connection>& conn, const string& s) {return "empty";}
+
+/* --------------------------------------Server runtime--------------------------------------------*/
+
+void serve_one(Server& server)
 {
-        unsigned char byte1 = conn->read();
-        unsigned char byte2 = conn->read();
-        unsigned char byte3 = conn->read();
-        unsigned char byte4 = conn->read();
-        return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+        auto conn = server.waitForActivity();
+        if (conn != nullptr) {
+                try {
+                        /* Server commands
+                        Suggested format: 
+                        command = conn.read()
+                        if command = LIST_GROUPS
+                                Commandhander.writeList(list)
+                        if command = SIZE_LIST
+                                commandhandler.writesize(size)
+                        ...
+                        */
+                } catch (ConnectionClosedException&) {
+                        server.deregisterConnection(conn);
+                        cout << "Client closed connection" << endl;
+                }
+        } else {
+                conn = std::make_shared<Connection>();
+                server.registerConnection(conn);
+                cout << "New client connects" << endl;
+        }
 }
 
-/*
- * Send a string to a client.
- */
-void writeString(const std::shared_ptr<Connection>& conn, const string& s)
-{
-        for (char c : s) {
-                conn->write(c);
-        }
-        conn->write('$');
-}
+/* --------------------------------------Server initializers - don't touch--------------------------------------------*/
 
 Server init(int argc, char* argv[])
 {
@@ -58,37 +70,6 @@ Server init(int argc, char* argv[])
                 exit(3);
         }
         return server;
-}
-
-void process_request(std::shared_ptr<Connection>& conn)
-{
-        int    nbr = readNumber(conn);
-        string result;
-        if (nbr > 0) {
-                result = "positive";
-        } else if (nbr == 0) {
-                result = "zero";
-        } else {
-                result = "negative";
-        }
-        writeString(conn, result);
-}
-
-void serve_one(Server& server)
-{
-        auto conn = server.waitForActivity();
-        if (conn != nullptr) {
-                try {
-                    process_request(conn);
-                } catch (ConnectionClosedException&) {
-                        server.deregisterConnection(conn);
-                        cout << "Client closed connection" << endl;
-                }
-        } else {
-                conn = std::make_shared<Connection>();
-                server.registerConnection(conn);
-                cout << "New client connects" << endl;
-        }
 }
 
 int main(int argc, char* argv[])
