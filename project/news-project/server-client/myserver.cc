@@ -18,7 +18,7 @@ using std::endl;
 
 int readNumber(const std::shared_ptr<Connection>& conn) {return 0;}
 
-void writeString(const std::shared_ptr<Connection>& conn, const string& s) {return "empty";}
+void writeString(const std::shared_ptr<Connection>& conn, const string& s) {}
 
 /* --------------------------------------Server runtime--------------------------------------------*/
 

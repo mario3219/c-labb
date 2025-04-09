@@ -25,6 +25,12 @@ LDFLAGS =   -g -Llib
 all: lib/libclientserver.a
 	make -C server-client
 
+runserver:
+	./server-client/myserver 2000
+
+runclient:
+	./server-client/myclient localhost 2000
+
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
 
