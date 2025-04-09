@@ -28,26 +28,35 @@ all: lib/libclientserver.a
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
 
-lib/libclientserver.a: src/connection.o src/server.o
+lib/libclientserver.a: src/common/connection.o src/server/server.o
 	mkdir -p lib
-	ar rv lib/libclientserver.a  src/connection.o src/server.o
+	ar rv lib/libclientserver.a  src/common/connection.o src/server/server.o
 	ranlib lib/libclientserver.a
 
 # Phony targets
 .PHONY: all clean distclean
 
-SRC = $(wildcard src/*.cc)
+SRC_COMMON = $(wildcard src/common/*.cc)
+SRC_DATABASE = $(wildcard src/database/*.cc)
+SRC_SERVER = $(wildcard src/server/*.cc)
+
 
 # Standard clean
 clean:
-	-rm $(SRC:.cc=.o) $(PROGS)
+	-rm $(SRC_COMMON:.cc=.o)
+	-rm $(SRC_DATABASE:.cc=.o)
+	-rm $(SRC_SERVER:.cc=.o)
 
 distclean: clean
 	-rm lib/libclientserver.a
 	-rmdir lib
-	-rm $(SRC:.cc=.d) 
+	-rm $(SRC_COMMON:.cc=.d)
+	-rm $(SRC_DATABASE:.cc=.d)
+	-rm $(SRC_SERVER:.cc=.d)
 	make -C example distclean
 
 
 # Include the *.d files
--include $(SRC:.cc=.d)
+-include $(SRC_COMMON:.cc=.d)
+-include $(SRC_DATABASE:.cc=.d)
+-include $(SRC_SERVER:.cc=.d)
