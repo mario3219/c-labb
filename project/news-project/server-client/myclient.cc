@@ -18,15 +18,10 @@ using enum Protocol;
 
 /* Client Methods */
 
-void write(const Connection& conn, int value) {}
-
-string read(const Connection& conn) {return "empty";}
-
 void writeUI() {
       /*
         Text-based UI for user inputs
         */
-        cout << "Welcome to our server! Please write the number to the corresponding alternative:\n" << "--------\n";
         cout << "1. List news groups\n";
         cout << "2. Create newsgroup\n";
         cout << "3. Delete newsgroup\n";
@@ -35,7 +30,6 @@ void writeUI() {
         cout << "6. Delete article\n";
         cout << "7. Get article\n";
         cout << "--------\nInput: ";
-        COM_LIST_NG;
 }
 
 /* --------------------------------------Client runtime--------------------------------------------*/
@@ -47,14 +41,13 @@ int app(const Connection& conn)
         string usr_input;
         CommandHandler cmdh(conn);
 
+        cout << "Welcome to our server! Please write the number to the corresponding alternative:\n" << "--------\n";
         writeUI();
         while (RUNTIME && cin >> usr_input) {
                 /* Input client methods here */
                 try {
                         /* SUGGESTED FORMAT
-                        if (usr_input == "list groups") {
-                                commandhandler.getArticles
-                        }
+                        cmdh.process();
                         */
                 RUNTIME = false;
 

@@ -14,21 +14,22 @@ class CommandHandler {
         CommandHandler(const Connection& conn);
         ~CommandHandler() = default;
 
-        /*Methods, client -> server*/
-        void sendNewsgroups();
-        list<string> recNewsgroups();
-
-        /*Methods, server -> client*/
-
-        /*General methods*/
-        void createNewsgroup();
-        void deleteNewsgroup();
-        list<string> listArticles();
-        void deleteArticle();
-        string getArticle();
+        /*Checks commandbyte, then executes appropriate method
+        according to what command is returned*/
+        void process();
 
     private:
         MessageHandler msgh;
+
+        /*Methods*/
+        void listNewsgroups();
+        void createNewsgroup();
+        void deleteNewsgroup();
+        void listArticles();
+        void createArticle();
+        void deleteArticle();
+        void getArticle();
+
 };
 
 #endif

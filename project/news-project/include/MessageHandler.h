@@ -14,7 +14,7 @@ class MessageHandler {
 
         /*Sending methods*/
         void sendCode(int code);
-        void sendInt(int value);
+        void sendInt(int value);                    
         void sendString(string str);
         void sendStringParameter(string param);
         void sendIntParameter(int param);
