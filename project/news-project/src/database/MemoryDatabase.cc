@@ -12,11 +12,7 @@ std::vector<Newsgroup> MemoryDatabase::listNewsgroups() const
     return result;
 }
 
-bool MemoryDatabase::createNewsgroup(const std::string &name)
-{
-}
-
-bool MemoryDatabase::deleteNewsgroup(std::string newsgroup_name)
+bool MemoryDatabase::createNewsgroup(const std::string &name) bool MemoryDatabase::deleteNewsgroup(std::string newsgroup_name)
 {
 }
 
