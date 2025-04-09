@@ -2,7 +2,7 @@
 #include "connection.h"
 #include "connectionclosedexception.h"
 #include "CommandHandler.h"
-#include "MessageHandler.h"
+#include "protocol.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -14,6 +14,7 @@ using std::cin;
 using std::cout;
 using std::cerr;
 using std::endl;
+using enum Protocol;
 
 /* Client Methods */
 
@@ -21,20 +22,33 @@ void write(const Connection& conn, int value) {}
 
 string read(const Connection& conn) {return "empty";}
 
+void writeUI() {
+      /*
+        Text-based UI for user inputs
+        */
+        cout << "Welcome to our server! Please write the number to the corresponding alternative:\n" << "--------\n";
+        cout << "1. List news groups\n";
+        cout << "2. Create newsgroup\n";
+        cout << "3. Delete newsgroup\n";
+        cout << "4. List articles\n";
+        cout << "5. Create article\n";
+        cout << "6. Delete article\n";
+        cout << "7. Get article\n";
+        cout << "--------\nInput: ";
+        COM_LIST_NG;
+}
+
 /* --------------------------------------Client runtime--------------------------------------------*/
 
 int app(const Connection& conn)
 {
-        /*
-        Insert text-based UI for user inputs
-        */
-
-        cout << "Welcome to our server! Sorry, it is under development\n";
 
         bool RUNTIME = true;    // set to false if the user wants to exit
         string usr_input;
+        CommandHandler cmdh(conn);
 
-        while (RUNTIME || cin >> usr_input) {
+        writeUI();
+        while (RUNTIME && cin >> usr_input) {
                 /* Input client methods here */
                 try {
                         /* SUGGESTED FORMAT
@@ -42,8 +56,8 @@ int app(const Connection& conn)
                                 commandhandler.getArticles
                         }
                         */
-                        cout << "No available methods so far\n";
-                        RUNTIME = false;
+                RUNTIME = false;
+
                 /* Closed connection handler */
                 } catch (ConnectionClosedException&) {
                         cout << " no reply from server. Exiting." << endl;

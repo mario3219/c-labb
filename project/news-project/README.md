@@ -1,6 +1,7 @@
 # News Project
 Joel, Jonathan, Harald
 
+Requirements: C++20
 
 ## building with make
 
@@ -13,19 +14,3 @@ For cleaning, use `make clean` and `make distclean`.
 ## running with make
 
 Open two separate terminals, in one terminal run `make runserver` and `make runclient` in the other
-
-## running the examples
-
-To run the examples, open two terminal windows.
-
-In the first one, start the server with `myserver <port>`, e.g.,
-
-```
-example/myserver 7777
-```
-
-In the other one, start the client with `myclient <server> <port>`, e.g.,
-
-```
-example/myclient localhost 7777
-```
