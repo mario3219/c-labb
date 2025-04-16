@@ -57,6 +57,7 @@ int app(const Connection& conn)
                         cout << " no reply from server. Exiting." << endl;
                         return 1;
                 }
+                writeUI();
         }
         cout << "\nexiting.\n";
         return 0;

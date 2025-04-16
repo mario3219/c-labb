@@ -25,12 +25,13 @@ void writeString(const std::shared_ptr<Connection>& conn, const string& s) {}
 
 /* --------------------------------------Server runtime--------------------------------------------*/
 
-void serve_one(Server& server)
+void serve_one(Server& server, MemoryDatabase database)
 {
         auto conn = server.waitForActivity();
+        ServerCommandHandler cmdh(conn,database);
         if (conn != nullptr) {
                 try {
-
+                        cmdh.process();
                         /* Server commands
                         Suggested format: 
                         command = conn.read()
@@ -80,8 +81,10 @@ int main(int argc, char* argv[])
 {
         auto server = init(argc, argv);
 
+        MemoryDatabase database;
+
         while (true) {
-            serve_one(server);
+            serve_one(server,database);
         }
         return 0;
 }
