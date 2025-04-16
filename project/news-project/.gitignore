@@ -1,0 +1,8 @@
+# Ignore object files
+*.o
+
+# Ignore dependency files
+*.d
+
+# Ignore the lib directory if it's generated during the build
+lib/
