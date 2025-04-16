@@ -72,7 +72,7 @@ int MessageHandler::recInt() {
 
 
 string MessageHandler::recStringParameter() {
-    //int code = recCode();
+    int code = recCode();
 
     int n = recInt();
 
@@ -87,7 +87,7 @@ string MessageHandler::recStringParameter() {
 }
 
 int MessageHandler::recIntParameter() {
-    //int code = recCode();
+    int code = recCode();
     return recInt();
 }
 

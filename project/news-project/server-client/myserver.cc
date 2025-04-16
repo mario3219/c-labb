@@ -3,9 +3,14 @@
 #include "connectionclosedexception.h"
 #include "server.h"
 #include "MessageHandler.h"
+<<<<<<< HEAD
 #include "protocol.h"
 // Update the include path to the correct relative or absolute path
 #include "../include/MemoryDatabase.h"
+=======
+#include "ServerCommandHandler.h"
+#include "MemoryDatabase.h"
+>>>>>>> test-commandhandler
 
 #include <cstdlib>
 #include <iostream>
@@ -68,6 +73,7 @@ void listArticles(const std::shared_ptr<Connection> &conn, const string &s, Memo
 
 /* --------------------------------------Server runtime--------------------------------------------*/
 
+<<<<<<< HEAD
 void serve_one(Server &server, MemoryDatabase db)
 {
         auto conn = server.waitForActivity();
@@ -103,6 +109,25 @@ void serve_one(Server &server, MemoryDatabase db)
                 } // Close the switch statement
                 catch (ConnectionClosedException &)
                 {
+=======
+void serve_one(Server& server, MemoryDatabase database)
+{
+        auto conn = server.waitForActivity();
+        ServerCommandHandler cmdh(conn,database);
+        if (conn != nullptr) {
+                try {
+                        cmdh.process();
+                        /* Server commands
+                        Suggested format: 
+                        command = conn.read()
+                        if command = LIST_GROUPS
+                                Commandhander.writeList(list)
+                        if command = SIZE_LIST
+                                commandhandler.writesize(size)
+                        ...
+                        */
+                } catch (ConnectionClosedException&) {
+>>>>>>> test-commandhandler
                         server.deregisterConnection(conn);
                         cout << "Client closed connection" << endl;
                 }
@@ -151,9 +176,16 @@ int main(int argc, char *argv[])
         auto db = MemoryDatabase();
         auto server = init(argc, argv);
 
+<<<<<<< HEAD
         while (true)
         {
                 serve_one(server, db);
+=======
+        MemoryDatabase database;
+
+        while (true) {
+            serve_one(server,database);
+>>>>>>> test-commandhandler
         }
         return 0;
 }
