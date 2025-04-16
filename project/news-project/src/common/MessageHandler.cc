@@ -3,14 +3,17 @@
 
 using std::string;
 /*Constructors and destructors*/
-MessageHandler::MessageHandler(const std::shared_ptr<Connection>& con) : conn(con) {}
+//MessageHandler::MessageHandler(const std::shared_ptr<Connection>& con) : conn(con) {}
+MessageHandler::MessageHandler(const Connection& con) : conn(con) {}
 
 /*Private methods*/
 void MessageHandler::sendByte(int code) {
-    conn->write(static_cast<char>(code));
+    //conn->write(static_cast<char>(code));
+    conn.write(static_cast<char>(code));
 }
 int MessageHandler::recByte() {
-    int code = static_cast<int>(conn->read());
+    //int code = static_cast<int>(conn->read());
+    int code = static_cast<int>(conn.read());
     return code;
 }
 
@@ -76,7 +79,8 @@ string MessageHandler::recStringParameter() {
     string result;
 
     for (int i = 0; i < n; i++) {
-        char ch = static_cast<char>(conn->read());
+        //char ch = static_cast<char>(conn->read());
+        char ch = static_cast<char>(conn.read());
         result += ch;
     }
     return result;

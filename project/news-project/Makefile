@@ -38,7 +38,7 @@ runclient:
 
 lib/libclientserver.a: src/common/connection.o src/server/server.o src/common/MessageHandler.o src/common/CommandHandler.o
 	mkdir -p lib
-	ar rv lib/libclientserver.a  src/common/connection.o src/server/server.o
+	ar rv lib/libclientserver.a  src/common/connection.o src/server/server.o src/common/MessageHandler.o src/common/CommandHandler.o
 	ranlib lib/libclientserver.a
 
 # Phony targets

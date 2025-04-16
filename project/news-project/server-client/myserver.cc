@@ -2,6 +2,7 @@
 #include "connection.h"
 #include "connectionclosedexception.h"
 #include "server.h"
+#include "MessageHandler.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -27,6 +28,7 @@ void serve_one(Server& server)
         auto conn = server.waitForActivity();
         if (conn != nullptr) {
                 try {
+
                         /* Server commands
                         Suggested format: 
                         command = conn.read()
