@@ -1,7 +1,6 @@
-/* myclient.cc: sample client program */
 #include "connection.h"
 #include "connectionclosedexception.h"
-#include "CommandHandler.h"
+#include "ClientCommandHandler.h"
 #include "MessageHandler.h"
 #include "protocol.h"
 

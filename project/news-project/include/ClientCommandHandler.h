@@ -1,5 +1,5 @@
-#ifndef COMMANDHANDLER_H
-#define COMMANDHANDLER_H
+#ifndef CLIENTCOMMANDHANDLER_H
+#define CLIENTCOMMANDHANDLER_H
 
 #include "MessageHandler.h"
 #include <list>
@@ -8,12 +8,12 @@
 using std::list;
 using std::string;
 
-class ServerCommandHandler
+class ClientCommandHandler
 {
 public:
     /*Constructors and destructors*/
-    ServerCommandHandler(const Connection &conn);
-    ~ServerCommandHandler() = default;
+    ClientCommandHandler(const Connection &conn);
+    ~ClientCommandHandler() = default;
 
     /*Checks commandbyte, then executes appropriate method
     according to what command is returned*/
