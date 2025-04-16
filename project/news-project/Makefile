@@ -36,7 +36,7 @@ runclient:
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
 
-lib/libclientserver.a: src/common/connection.o src/server/server.o
+lib/libclientserver.a: src/common/connection.o src/server/server.o src/common/MessageHandler.o src/common/CommandHandler.o
 	mkdir -p lib
 	ar rv lib/libclientserver.a  src/common/connection.o src/server/server.o
 	ranlib lib/libclientserver.a
