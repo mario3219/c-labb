@@ -1,4 +1,4 @@
-#include "ServerCommandHandler.h"
+#include "ClientCommandHandler.h"
 #include "MessageHandler.h"
 #include <list>
 #include <string>
@@ -9,11 +9,11 @@ using std::string;
 using enum Protocol;
 
 /*Constructors and destructors*/
-ServerCommandHandler::ServerCommandHandler(const Connection &conn) : msgh(conn) {}
+ClientCommandHandler::ClientCommandHandler(const Connection &conn) : msgh(conn) {}
 
 /*Checks commandbyte, then executes appropriate method
 according to what command is returned*/
-void process();
+void process(string input);
 
 /*Methods*/
 void listNewsgroups();
