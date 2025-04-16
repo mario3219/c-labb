@@ -28,7 +28,7 @@ class MessageHandler {
         string recStringParameter();
         int recIntParameter();
 
-    private:
+    //private:
         void sendByte(int code);
         int recByte();
         //std::shared_ptr<Connection> conn;

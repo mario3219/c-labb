@@ -28,7 +28,7 @@ void serve_one(Server& server)
         auto conn = server.waitForActivity();
         if (conn != nullptr) {
                 try {
-                        MessageHandler msgh(*conn);
+
                         /* Server commands
                         Suggested format: 
                         command = conn.read()
