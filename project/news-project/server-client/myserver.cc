@@ -3,6 +3,8 @@
 #include "connectionclosedexception.h"
 #include "server.h"
 #include "MessageHandler.h"
+#include "ServerCommandHandler.h"
+#include "MemoryDatabase.h"
 
 #include <cstdlib>
 #include <iostream>

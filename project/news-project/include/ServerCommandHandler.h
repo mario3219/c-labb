@@ -1,5 +1,5 @@
-#ifndef COMMANDHANDLER_H
-#define COMMANDHANDLER_H
+#ifndef SERVERCOMMANDHANDLER_H
+#define SERVERCOMMANDHANDLER_H
 
 #include "MessageHandler.h"
 #include <list>

@@ -1,3 +1,4 @@
+#include "ServerCommandHandler.h"
 #include "MessageHandler.h"
 #include <list>
 #include <string>
@@ -8,9 +9,7 @@ using std::string;
 using enum Protocol;
 
 /*Constructors and destructors*/
-CommandHandler::CommandHandler(const Connection &conn) : msgh(conn)
-{
-}
+ServerCommandHandler::ServerCommandHandler(const Connection &conn) : msgh(conn) {}
 
 /*Checks commandbyte, then executes appropriate method
 according to what command is returned*/

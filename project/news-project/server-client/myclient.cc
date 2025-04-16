@@ -1,7 +1,7 @@
 /* myclient.cc: sample client program */
 #include "connection.h"
 #include "connectionclosedexception.h"
-#include "CommandHandler.h"
+#include "ClientCommandHandler.h"
 #include "MessageHandler.h"
 #include "protocol.h"
 
@@ -40,8 +40,7 @@ int app(const Connection& conn)
 
         bool RUNTIME = true;    // set to false if the user wants to exit
         string usr_input;
-        //CommandHandler cmdh(conn);
-        MessageHandler msgh(conn);
+        ClientCommandHandler cmdh(conn);
 
         cout << "Welcome to our server! Please write the number to the corresponding alternative:\n" << "--------\n";
         writeUI();
@@ -51,7 +50,7 @@ int app(const Connection& conn)
                         /* SUGGESTED FORMAT
                         cmdh.process();
                         */
-                RUNTIME = false;
+                        cmdh.process(usr_input);
 
                 /* Closed connection handler */
                 } catch (ConnectionClosedException&) {
