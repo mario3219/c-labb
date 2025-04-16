@@ -10,8 +10,8 @@ using std::string;
 class MessageHandler {
     public:
         /*Constructors and destructors*/
-        MessageHandler(const std::shared_ptr<Connection>& con);
-        //MessageHandler(const Connection& con);
+        //MessageHandler(const std::shared_ptr<Connection>& con);
+        MessageHandler(const Connection& con);
         ~MessageHandler() = default;
 
         /*Sending methods*/
@@ -28,11 +28,11 @@ class MessageHandler {
         string recStringParameter();
         int recIntParameter();
 
-    private:
+    //private:
         void sendByte(int code);
         int recByte();
-        std::shared_ptr<Connection> conn;
-        //Connection& conn;
+        //std::shared_ptr<Connection> conn;
+        const Connection& conn;
 };
 
 #endif

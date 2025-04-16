@@ -8,9 +8,7 @@ using std::list;
 using enum Protocol;
 
 /*Constructors and destructors*/
-CommandHandler::CommandHandler(const Connection& conn) {
-    MessageHandler msgh(conn);
-}
+CommandHandler::CommandHandler(const Connection& conn) : msgh(conn) {}
 
 /*Checks commandbyte, then executes appropriate method
 according to what command is returned*/

@@ -2,6 +2,7 @@
 #include "connection.h"
 #include "connectionclosedexception.h"
 #include "CommandHandler.h"
+#include "MessageHandler.h"
 #include "protocol.h"
 
 #include <cstdlib>
@@ -39,7 +40,8 @@ int app(const Connection& conn)
 
         bool RUNTIME = true;    // set to false if the user wants to exit
         string usr_input;
-        CommandHandler cmdh(conn);
+        //CommandHandler cmdh(conn);
+        MessageHandler msgh(conn);
 
         cout << "Welcome to our server! Please write the number to the corresponding alternative:\n" << "--------\n";
         writeUI();
