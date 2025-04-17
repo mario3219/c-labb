@@ -12,7 +12,7 @@ using std::cout;
 using enum Protocol;
 
 /*Constructors and destructors*/
-ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection>& conn, MemoryDatabase db) : msgh(*conn), db(db) 
+ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection>& conn, MemoryDatabase& db) : msgh(*conn), db(db) 
 {}
 
 /*Checks commandbyte, then executes appropriate method
