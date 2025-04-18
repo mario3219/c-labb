@@ -33,6 +33,8 @@ void ServerCommandHandler::process(){
 };
 
 /*Methods*/
+
+/*Does not pass the TestServer*/
 void ServerCommandHandler::listNewsgroups() {
     cout << "Sending: ANS_LIST_NG" << "\n";
     msgh.sendCode(ANS_LIST_NG);
@@ -43,6 +45,8 @@ void ServerCommandHandler::listNewsgroups() {
         msgh.sendStringParameter(group.name);
     }
 };
+
+/*Does not pass the TestServer*/
 void ServerCommandHandler::createNewsgroup(){
     cout << "Sending: ANS_CREATE_NG" << "\n";
     msgh.sendCode(ANS_CREATE_NG);
@@ -57,6 +61,8 @@ void ServerCommandHandler::createNewsgroup(){
         msgh.sendCode(ANS_NAK);
     }
 };
+
+/*Does not pass the TestServer*/
 void ServerCommandHandler::deleteNewsgroup(){
     cout << "Sending: ANS_DELETE_NG" << "\n";
     msgh.sendCode(ANS_DELETE_NG);
