@@ -18,16 +18,16 @@ using std::endl;
 
 /* --------------------------------------Server methods--------------------------------------------*/
 
-int readNumber(const std::shared_ptr<Connection>& conn) {return 0;}
+//int readNumber(const std::shared_ptr<Connection>& conn) {return 0;}
 
-void writeString(const std::shared_ptr<Connection>& conn, const string& s) {}
+//void writeString(const std::shared_ptr<Connection>& conn, const string& s) {}
 
 /* --------------------------------------Server runtime--------------------------------------------*/
 
-void serve_one(Server& server, MemoryDatabase db)
+void serve_one(Server& server, MemoryDatabase* dbptr)
 {
         auto conn = server.waitForActivity();
-        ServerCommandHandler cmdh(conn, db);
+        ServerCommandHandler cmdh(conn, dbptr);
         if (conn != nullptr) {
                 try {
                         cmdh.process();
@@ -81,9 +81,10 @@ int main(int argc, char* argv[])
 {
         auto server = init(argc, argv);
         MemoryDatabase db;
+        MemoryDatabase* dbptr = &db;
 
         while (true) {
-            serve_one(server,db);
+            serve_one(server,dbptr);
         }
         return 0;
 }

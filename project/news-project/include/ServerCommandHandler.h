@@ -13,7 +13,7 @@ class ServerCommandHandler
 {
 public:
     /*Constructors and destructors*/
-    ServerCommandHandler(const std::shared_ptr<Connection>& conn, MemoryDatabase& db);
+    ServerCommandHandler(const std::shared_ptr<Connection>& conn, MemoryDatabase* dbptr);
     ~ServerCommandHandler() = default;
 
     /*Checks commandbyte, then executes appropriate method
@@ -22,7 +22,7 @@ public:
 
 private:
     MessageHandler msgh;
-    MemoryDatabase db;
+    MemoryDatabase* dbptr;
 
     /*Methods*/
     void listNewsgroups();
