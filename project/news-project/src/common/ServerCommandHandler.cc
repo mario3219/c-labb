@@ -21,12 +21,12 @@ void ServerCommandHandler::process(){
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
     if (code == COM_LIST_NG) {
-        cout << "Listing newsgroups" << "\n";
         listNewsgroups();
     }
      else if (code == COM_CREATE_NG) {
-        cout << "Creating newsgroup" << "\n";
         createNewsgroup();
+    } else if (code == COM_DELETE_NG) {
+        deleteNewsgroup();
     } else {
         cout << code << " has no implemented function" << "\n";
     }
@@ -51,12 +51,26 @@ void ServerCommandHandler::createNewsgroup(){
     bool status = dbptr->createNewsgroup(newsgroup_name);
     if (status == true) {
         cout << "Created newsgroup: " << newsgroup_name << "\n";
+        msgh.sendCode(ANS_ACK);
     } else {
-        cout << "FAILED creating newsgroup" << "\n";
+        cout << "FAILED creating newsgroup " << newsgroup_name << "\n";
+        msgh.sendCode(ANS_NAK);
     }
-    cout << "Awaiting next call" << "\n";
 };
-void ServerCommandHandler::deleteNewsgroup(){};
+void ServerCommandHandler::deleteNewsgroup(){
+    cout << "Sending: ANS_DELETE_NG" << "\n";
+    msgh.sendCode(ANS_DELETE_NG);
+    string newsgroup_name = msgh.recStringParameter();
+    cout << "Received group name: " << newsgroup_name << "\n";
+    bool status = dbptr->deleteNewsgroup(newsgroup_name);
+    if (status == true) {
+        cout << "Deleted newsgroup: " << newsgroup_name << "\n";
+        msgh.sendCode(ANS_ACK);
+    } else {
+        cout << "FAILED deleting newsgroup " << newsgroup_name << "\n";
+        msgh.sendCode(ERR_NG_DOES_NOT_EXIST);
+    }
+};
 void ServerCommandHandler::listArticles(){};
 void ServerCommandHandler::createArticle(){};
 void ServerCommandHandler::deleteArticle(){};

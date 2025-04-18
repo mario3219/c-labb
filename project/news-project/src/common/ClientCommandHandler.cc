@@ -5,6 +5,7 @@
 #include "protocol.h"
 #include <string>
 #include <iostream>
+#include <limits>
 
 using std::cout;
 using std::list;
@@ -25,11 +26,19 @@ void ClientCommandHandler::process(string input) {
     else if (input == "2") {
         cout << "Input newsgroup name: ";
         string name;
-        std::cin >> name;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, name);
         cout << "\n";
         createNewsgroup(name);
     }
-    else if (input == "3") {}
+    else if (input == "3") {
+        cout << "Input newsgroup to delete: ";
+        string name;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, name);
+        cout << "\n";
+        deleteNewsgroup(name);
+    }
     else if (input == "4") {}
     else if (input == "5") {}
     else if (input == "6") {}
@@ -56,8 +65,29 @@ void ClientCommandHandler::createNewsgroup(string newsgroup_name) {
     if (code == ANS_CREATE_NG) {
         msgh.sendStringParameter(newsgroup_name);
     }
+    code = static_cast<Protocol>(msgh.recCode());
+    if (code == ANS_ACK) {
+        cout << "Newsgroup " << newsgroup_name << " created." << "\n";
+    } else if (code == ANS_NAK) {
+        cout << "Failed to create newsgroup " << newsgroup_name << "\n";
+    }
+
 };
-void ClientCommandHandler::deleteNewsgroup() {};
+void ClientCommandHandler::deleteNewsgroup(string newsgroup_name) {
+    msgh.sendCode(COM_DELETE_NG);
+    Protocol code = static_cast<Protocol>(msgh.recCode());
+    if (code == ANS_DELETE_NG) {
+        msgh.sendStringParameter(newsgroup_name);
+    }
+    code = static_cast<Protocol>(msgh.recCode());
+    if (code == ANS_ACK) {
+        cout << "Newsgroup deleted" << "\n";
+    } else if (code == ERR_NG_DOES_NOT_EXIST) {
+        cout << "FAILED: Newsgroup does not exist" << "\n";
+    } else {
+        cout << "CODE ERROR: UNKNOWN MESSAGE" << "\n";
+    }
+};
 void ClientCommandHandler::listArticles() {};
 void ClientCommandHandler::createArticle() {};
 void ClientCommandHandler::deleteArticle() {};

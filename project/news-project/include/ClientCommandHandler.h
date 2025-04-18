@@ -25,7 +25,7 @@ private:
     /*Methods*/
     void listNewsgroups();
     void createNewsgroup(string newsgroup_name);
-    void deleteNewsgroup();
+    void deleteNewsgroup(string newsgroup_name);
     void listArticles();
     void createArticle();
     void deleteArticle();
