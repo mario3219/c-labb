@@ -183,14 +183,22 @@ void ServerCommandHandler::createArticle(){
     Protocol code = static_cast<Protocol>(msgh.recCode());
     bool status;
     if (code == COM_END) {
-        cout << "Sending code: ANS_ACK" << "\n";
-        msgh.sendCode(ANS_ACK);
+        cout << "Sending code: ANS_CREATE_ART" << "\n";
+        msgh.sendCode(ANS_CREATE_ART);
         status = dbptr->createArticle(getNameById(*dbptr,groupId),title,author,text);
         if (status == true) {
             cout << "Article created" << "\n";
-            cout << "Sending code: ANS_END" << "\n";
-            msgh.sendCode(ANS_END);
+            cout << "Sending code: ANS_ACK" << "\n";
+            msgh.sendCode(ANS_ACK);
+        } else {
+            cout << "FAILED creating article" << "\n";
+            cout << "Sending code: ANS_NAK" << "\n";
+            msgh.sendCode(ANS_NAK);
+            cout << "Sending code: UNDEFINED" << "\n";
+            msgh.sendCode(UNDEFINED);
         }
+        cout << "Sending code: ANS_END" << "\n";
+        msgh.sendCode(ANS_END);
     }
 };
 void ServerCommandHandler::deleteArticle(){};

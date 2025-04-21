@@ -71,6 +71,7 @@ bool MemoryDatabase::createArticle(std::string newsgroup_name, const std::string
         article.content = content;
         article.id = nextArticleId++;
         newsgroups[newsgroup_name].articles.insert({article.id, article});
+        return true;
     }
 }
 
