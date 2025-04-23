@@ -5,6 +5,8 @@
 #include <iostream>
 #include "protocol.h"
 #include "MemoryDatabase.h"
+#include <algorithm>
+#include <vector>
 
 using std::list;
 using std::string;
@@ -119,6 +121,9 @@ void ServerCommandHandler::listArticles(){
         cout << "Sending code: ANS_LIST_ART" << "\n";
         msgh.sendCode(ANS_LIST_ART);
         std::vector<Article> articles = dbptr->listArticles(getNameById(*dbptr,groupId));
+        std::sort(articles.begin(), articles.end(), [](const Article& a, const Article& b) {
+            return a.id < b.id;
+        });
         cout << "Sending code: ANS_ACK" << "\n";
         msgh.sendCode(ANS_ACK);
         cout << "Sending article list size: " << articles.size() <<"\n";
