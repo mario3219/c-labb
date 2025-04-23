@@ -43,6 +43,7 @@ void ServerCommandHandler::process(){
 };
 
 /*Methods*/
+
 void ServerCommandHandler::listNewsgroups() {
     Protocol code = static_cast<Protocol>(msgh.recCode());
     std::vector<Newsgroup> list = dbptr->listNewsgroups();  
@@ -73,8 +74,12 @@ void ServerCommandHandler::createNewsgroup(){
             msgh.sendCode(ANS_ACK);
         } else {
             cout << "FAILED creating newsgroup " << newsgroup_name << "\n";
+            cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
+            cout << "Sending code: ERR_NG_ALREADY_EXISTS" << "\n";
+            msgh.sendCode(ERR_NG_ALREADY_EXISTS);
         }
+        cout << "Sending code: ANS_END" << "\n";
         msgh.sendCode(ANS_END);
     }
 };
@@ -106,12 +111,16 @@ void ServerCommandHandler::deleteNewsgroup(){
             msgh.sendCode(ANS_ACK);
         } else {
             cout << "Failed deleting group" << "\n";
+            cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
+            cout << "Sending code: ERR_NG_DOES_NOT_EXIST" << "\n";
+            msgh.sendCode(ERR_NG_DOES_NOT_EXIST);
         }
         cout << "Sending : ANS_END" << "\n";
         msgh.sendCode(ANS_END);
     }
 };
+
 void ServerCommandHandler::listArticles(){
     int groupId = msgh.recIntParameter();
     cout << "Received groupId: " << groupId << "\n";
@@ -120,6 +129,23 @@ void ServerCommandHandler::listArticles(){
     if (code == COM_END) {
         cout << "Sending code: ANS_LIST_ART" << "\n";
         msgh.sendCode(ANS_LIST_ART);
+        std::vector<Newsgroup> list = dbptr->listNewsgroups();  
+
+        /* TEMP - executes if newsgroup does not exist, but should be implemented in the database class*/
+        auto it = std::find_if(list.begin(), list.end(), [groupId](const Newsgroup& s) {
+            return s.id == groupId;
+        });
+        if (it == list.end()) {
+            cout << "Sending code: ANS_NAK" << "\n";
+            msgh.sendCode(ANS_NAK);
+            cout << "Sending code: ERR_NG_DOES_NOT_EXIST" << "\n";
+            msgh.sendCode(ERR_NG_DOES_NOT_EXIST);
+            cout << "Sending code: ANS_NAK" << "\n";
+            msgh.sendCode(ANS_NAK);
+            return;
+        }
+
+        /*TEMP - should change container to an ordered set in database class*/
         std::vector<Article> articles = dbptr->listArticles(getNameById(*dbptr,groupId));
         std::sort(articles.begin(), articles.end(), [](const Article& a, const Article& b) {
             return a.id < b.id;

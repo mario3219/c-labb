@@ -45,8 +45,6 @@ enum class Protocol {
 };
 
 /*The following methods are purely to provide a server output for debugging*/
-
-
 inline std::string to_string(Protocol code) {
         switch (code) {
             case Protocol::UNDEFINED: return "UNDEFINED";
