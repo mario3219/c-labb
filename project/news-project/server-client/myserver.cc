@@ -27,7 +27,6 @@ using std::endl;
 
 void serve_one(Server& server, MemoryDatabase* dbptr)
 {
-	cout << "Server initialized" << "\n" << "----------------------" << "\n";
         auto conn = server.waitForActivity();
         ServerCommandHandler cmdh(conn, dbptr);
         if (conn != nullptr) {
@@ -82,9 +81,10 @@ Server init(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
         auto server = init(argc, argv);
-        MemoryDatabase db;
+        
+	MemoryDatabase db;
         MemoryDatabase* dbptr;
-	
+
 	string userinput;
 	cout << "Choose database type: " << "\n";
 	cout << "1: Memorybased" << "\n" << "2: Hard-drive based" << "\n" << "----------------------";
@@ -102,6 +102,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	cout << "Server initialized" << "\n" << "----------------------" << "\n";
         while (true) {
             serve_one(server,dbptr);
         }

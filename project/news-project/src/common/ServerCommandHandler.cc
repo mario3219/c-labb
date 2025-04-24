@@ -47,6 +47,7 @@ void ServerCommandHandler::process(){
 void ServerCommandHandler::listNewsgroups() {
     Protocol code = static_cast<Protocol>(msgh.recCode());
     std::vector<Newsgroup> list = dbptr->listNewsgroups();  
+    cout << list.size() << "\n";
     if (code == COM_END) {
         msgh.sendCode(ANS_LIST_NG);
         cout << "Sending int: list.size() = " << list.size() << "\n";

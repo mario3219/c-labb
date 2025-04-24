@@ -51,13 +51,17 @@ void ClientCommandHandler::process(string input) {
 /*Methods*/
 void ClientCommandHandler::listNewsgroups() {
     msgh.sendCode(COM_LIST_NG);
+    msgh.sendCode(COM_END);
     Protocol code = static_cast<Protocol>(msgh.recCode());
     if (code == ANS_LIST_NG) {
-        int list_size = msgh.recInt();
-        for (int i = 0; i < list_size; i++) {
-            cout << msgh.recStringParameter() << "\n";
-        }
+        int list_size = msgh.recIntParameter();
+	cout << list_size << "\n";
+	for (int i = 0; i < list_size; i++) {
+		cout << msgh.recIntParameter() << " : ";
+		cout << msgh.recStringParameter() << "\n";
+	}
     }
+    code = static_cast<Protocol>(msgh.recCode());
 };
 void ClientCommandHandler::createNewsgroup(string newsgroup_name) {
     msgh.sendCode(COM_CREATE_NG);
