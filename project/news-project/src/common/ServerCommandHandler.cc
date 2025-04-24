@@ -187,8 +187,8 @@ void ServerCommandHandler::createArticle(){
             cout << "FAILED creating article" << "\n";
             cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
-            cout << "Sending code: UNDEFINED" << "\n";
-            msgh.sendCode(UNDEFINED);
+            cout << "Sending code: ERR_NG_DOES_NOT_EXIST" << "\n";
+            msgh.sendCode(ERR_NG_DOES_NOT_EXIST);
         }
         cout << "Sending code: ANS_END" << "\n";
         msgh.sendCode(ANS_END);
@@ -204,10 +204,17 @@ void ServerCommandHandler::deleteArticle(){
     if (code == COM_END) {
         cout << "Sending code: ANS_DELETE_ART" << "\n";
         msgh.sendCode(ANS_DELETE_ART);
-        cout << "Sending code: ANS_ACK" << "\n";
-        msgh.sendCode(ANS_ACK);
-        dbptr->deleteArticle(getNameById(*dbptr,groupId),articleId);
-        cout << "Article deleted" << "\n";
+	bool status = dbptr->deleteArticle(getNameById(*dbptr,groupId),articleId);
+        if (status == true) {
+		cout << "Sending code: ANS_ACK" << "\n";
+ 	       	msgh.sendCode(ANS_ACK);
+		cout << "Article deleted" << "\n";
+	} else {
+		cout << "Sending code: ANS_NAK" << "\n";
+ 	       	msgh.sendCode(ANS_NAK);
+		cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";
+		msgh.sendCode(ERR_ART_DOES_NOT_EXIST);
+	}
         cout << "Sending code: ANS_END" << "\n";
         msgh.sendCode(ANS_END);
     }
