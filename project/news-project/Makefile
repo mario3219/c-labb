@@ -33,6 +33,12 @@ runserver:
 runclient:
 	./server-client/myclient localhost 2000
 
+testserver1:
+	java -jar ../TestServer1.jar localhost 2000
+
+testserver2:
+	java -jar ../TestServer2.jar localhost 2000
+
 # Create the library; ranlib is for Darwin (OS X) and maybe other systems.
 # Doesn't seem to do any damage on other systems.
 
