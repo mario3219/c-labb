@@ -55,7 +55,6 @@ void ClientCommandHandler::listNewsgroups() {
     Protocol code = static_cast<Protocol>(msgh.recCode());
     if (code == ANS_LIST_NG) {
         int list_size = msgh.recIntParameter();
-	cout << list_size << "\n";
 	for (int i = 0; i < list_size; i++) {
 		cout << msgh.recIntParameter() << " : ";
 		cout << msgh.recStringParameter() << "\n";
@@ -65,17 +64,19 @@ void ClientCommandHandler::listNewsgroups() {
 };
 void ClientCommandHandler::createNewsgroup(string newsgroup_name) {
     msgh.sendCode(COM_CREATE_NG);
+    msgh.sendStringParameter(newsgroup_name);
+    msgh.sendCode(COM_END);
     Protocol code = static_cast<Protocol>(msgh.recCode());
     if (code == ANS_CREATE_NG) {
-        msgh.sendStringParameter(newsgroup_name);
-    }
-    code = static_cast<Protocol>(msgh.recCode());
-    if (code == ANS_ACK) {
-        cout << "Newsgroup " << newsgroup_name << " created." << "\n";
-    } else if (code == ANS_NAK) {
-        cout << "Failed to create newsgroup " << newsgroup_name << "\n";
-    }
-
+	    code = static_cast<Protocol>(msgh.recCode());
+	    if (code == ANS_ACK) {
+		cout << "Newsgroup " << newsgroup_name << " created." << "\n";
+	    } else if (code == ANS_NAK) {
+		cout << "Failed to create newsgroup " << newsgroup_name << "\n";
+		code = static_cast<Protocol>(msgh.recCode());
+		cout << code << "\n";
+	    }
+    }msgh.recCode();
 };
 void ClientCommandHandler::deleteNewsgroup(string newsgroup_name) {
     msgh.sendCode(COM_DELETE_NG);
