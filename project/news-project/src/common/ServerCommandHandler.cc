@@ -72,7 +72,8 @@ void ServerCommandHandler::createNewsgroup(){
         bool status = dbptr->createNewsgroup(newsgroup_name);
         if (status == true) {
             cout << "Created newsgroup: " << newsgroup_name << "\n";
-            msgh.sendCode(ANS_ACK);
+            cout << "Sending code: ANS_ACK" << "\n";
+	    msgh.sendCode(ANS_ACK);
         } else {
             cout << "FAILED creating newsgroup " << newsgroup_name << "\n";
             cout << "Sending code: ANS_NAK" << "\n";
