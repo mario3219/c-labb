@@ -28,7 +28,6 @@ void ClientCommandHandler::process(string input) {
         string name;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, name);
-        cout << "\n";
         createNewsgroup(name);
     }
     else if (input == "3") {
@@ -74,7 +73,6 @@ void ClientCommandHandler::createNewsgroup(string newsgroup_name) {
 	    } else if (code == ANS_NAK) {
 		cout << "Failed to create newsgroup " << newsgroup_name << "\n";
 		code = static_cast<Protocol>(msgh.recCode());
-		cout << code << "\n";
 	    }
     }msgh.recCode();
 };
