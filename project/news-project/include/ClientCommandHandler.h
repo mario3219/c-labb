@@ -26,10 +26,10 @@ private:
     void listNewsgroups();
     void createNewsgroup(string newsgroup_name);
     void deleteNewsgroup(string newsgroup_name);
-    void listArticles();
-    void createArticle();
+    void listArticles(int groupId);
+    void createArticle(int groupId, string title, string author, string text);
     void deleteArticle();
-    void getArticle();
+    void getArticle(int groupId, int articleId);
 };
 
 #endif

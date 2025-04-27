@@ -7,6 +7,7 @@
 #include <iostream>
 #include <limits>
 
+using std::cin;
 using std::cout;
 using std::list;
 using std::string;
@@ -38,10 +39,38 @@ void ClientCommandHandler::process(string input) {
         cout << "\n";
         deleteNewsgroup(name);
     }
-    else if (input == "4") {}
-    else if (input == "5") {}
+    else if (input == "4") {
+	int groupId;
+	cout << "Input newsgroup id to list: ";
+	cin >> groupId;
+	listArticles(groupId);
+    }
+    else if (input == "5") {
+	int groupId;
+	string title;
+	string author;
+	string text;
+	cout << "Input newsgroup id to add to: ";
+	cin >> groupId;
+	cout << "Input article title: ";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, title);
+	cout << "Input author: ";
+        std::getline(std::cin, author);
+	cout << "Input text: ";
+        std::getline(std::cin, text);
+	createArticle(groupId, title, author, text);
+    }
     else if (input == "6") {}
-    else if (input == "7") {}
+    else if (input == "7") {
+	int groupId;
+	int articleId;
+	cout << "Input newsgroup id: ";
+	cin >> groupId;
+	cout << "Input article id: ";
+	cin >> articleId;
+	getArticle(groupId, articleId);
+    }
     else {
         cout << "Please provide a valid input" << "\n";
     }
@@ -91,7 +120,61 @@ void ClientCommandHandler::deleteNewsgroup(string newsgroup_name) {
         cout << "CODE ERROR: UNKNOWN MESSAGE" << "\n";
     }
 };
-void ClientCommandHandler::listArticles() {};
-void ClientCommandHandler::createArticle() {};
+void ClientCommandHandler::listArticles(int groupId) {
+	msgh.sendCode(COM_LIST_ART);
+	msgh.sendIntParameter(groupId);
+	msgh.sendCode(COM_END);
+	Protocol code = static_cast<Protocol>(msgh.recCode());
+	if (code == ANS_LIST_ART) {	
+		code = static_cast<Protocol>(msgh.recCode());
+		if (code != ANS_NAK) {
+			int list_size = msgh.recIntParameter();
+			for (int i = 0; i < list_size; i++) {
+				int articleId = msgh.recIntParameter();
+				string articleName = msgh.recStringParameter();
+				cout << articleId << " : " << articleName << "\n";
+			}
+			code = static_cast<Protocol>(msgh.recCode());
+		} else {
+			code = static_cast<Protocol>(msgh.recCode());
+			cout << code << "\n";
+			code = static_cast<Protocol>(msgh.recCode());
+		}
+	}
+};
+void ClientCommandHandler::createArticle(int groupId, string title, string author, string text) {
+	msgh.sendCode(COM_CREATE_ART);
+	msgh.sendIntParameter(groupId);
+	msgh.sendStringParameter(title);
+	msgh.sendStringParameter(author);
+	msgh.sendStringParameter(text);
+	msgh.sendCode(COM_END);
+	Protocol code = static_cast<Protocol>(msgh.recCode());
+	if (code == ANS_CREATE_ART) {
+		code = static_cast<Protocol>(msgh.recCode());
+		if (code != ANS_NAK) {
+			cout << "Article created" << "\n";
+		} else {
+			code = static_cast<Protocol>(msgh.recCode());
+			cout << code << "\n";
+		} msgh.recCode();
+	}
+};
 void ClientCommandHandler::deleteArticle() {};
-void ClientCommandHandler::getArticle() {};
+void ClientCommandHandler::getArticle(int groupId, int articleId) {
+	msgh.sendCode(COM_GET_ART);
+	msgh.sendIntParameter(groupId);
+	msgh.sendIntParameter(articleId);
+	msgh.sendCode(COM_END);
+	Protocol code = static_cast<Protocol>(msgh.recCode());
+	if (code == ANS_GET_ART) {
+		msgh.recCode();
+		string title = msgh.recStringParameter();
+		string author = msgh.recStringParameter();
+		string text = msgh.recStringParameter();
+		cout << "Title: " << title << "\n";
+		cout << "Author: " << author << "\n";
+		cout << "---------------" << "\n";
+		cout << text << "\n";
+	} msgh.recCode();
+};
