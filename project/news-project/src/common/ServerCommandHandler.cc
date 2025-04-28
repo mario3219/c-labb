@@ -237,6 +237,8 @@ void ServerCommandHandler::getArticle(){
 		cout << "Article not found" << "\n";
 		cout << "Sending code: ANS_NAK" << "\n";
 		msgh.sendCode(ANS_NAK);
+		cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";
+		msgh.sendCode(ERR_ART_DOES_NOT_EXIST);
 		cout << "Sending code: ANS_END" << "\n";
 		msgh.sendCode(ANS_END);
 		return;
