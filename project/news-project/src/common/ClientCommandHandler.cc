@@ -32,16 +32,14 @@ void ClientCommandHandler::process(string input) {
         createNewsgroup(name);
     }
     else if (input == "3") {
-        cout << "Input newsgroup to delete: ";
-        string name;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::getline(std::cin, name);
-        cout << "\n";
-        deleteNewsgroup(name);
+	cout << "Input newsgroup id: ";
+        int groupId;
+	cin >> groupId;
+        deleteNewsgroup(groupId);
     }
     else if (input == "4") {
 	int groupId;
-	cout << "Input newsgroup id to list: ";
+	cout << "Input newsgroup id: ";
 	cin >> groupId;
 	listArticles(groupId);
     }
@@ -50,7 +48,7 @@ void ClientCommandHandler::process(string input) {
 	string title;
 	string author;
 	string text;
-	cout << "Input newsgroup id to add to: ";
+	cout << "Input newsgroup id: ";
 	cin >> groupId;
 	cout << "Input article title: ";
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -113,20 +111,18 @@ void ClientCommandHandler::createNewsgroup(string newsgroup_name) {
 	    }
     }msgh.recCode();
 };
-void ClientCommandHandler::deleteNewsgroup(string newsgroup_name) {
-    msgh.sendCode(COM_DELETE_NG);
-    Protocol code = static_cast<Protocol>(msgh.recCode());
-    if (code == ANS_DELETE_NG) {
-        msgh.sendStringParameter(newsgroup_name);
-    }
-    code = static_cast<Protocol>(msgh.recCode());
-    if (code == ANS_ACK) {
-        cout << "Newsgroup deleted" << "\n";
-    } else if (code == ERR_NG_DOES_NOT_EXIST) {
-        cout << "FAILED: Newsgroup does not exist" << "\n";
-    } else {
-        cout << "CODE ERROR: UNKNOWN MESSAGE" << "\n";
-    }
+void ClientCommandHandler::deleteNewsgroup(int groupId) {
+	msgh.sendCode(COM_DELETE_NG);
+    	msgh.sendIntParameter(groupId);
+   	msgh.sendCode(COM_END);
+    	msgh.recCode();
+ 	Protocol code = static_cast<Protocol>(msgh.recCode());
+	if (code != ANS_NAK) {
+		cout << "Newsgroup deleted" << "\n";
+	} else {
+		cout << "Newsgroup not found" << "\n";
+		msgh.recCode();
+	} msgh.recCode();
 };
 void ClientCommandHandler::listArticles(int groupId) {
 	msgh.sendCode(COM_LIST_ART);
