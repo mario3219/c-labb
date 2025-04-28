@@ -28,7 +28,7 @@ private:
     void deleteNewsgroup(string newsgroup_name);
     void listArticles(int groupId);
     void createArticle(int groupId, string title, string author, string text);
-    void deleteArticle();
+    void deleteArticle(int groupId, int articleId);
     void getArticle(int groupId, int articleId);
 };
 

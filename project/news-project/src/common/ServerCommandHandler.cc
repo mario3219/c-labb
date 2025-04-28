@@ -231,9 +231,18 @@ void ServerCommandHandler::getArticle(){
     if (code == COM_END) {
         cout << "Sending code: ANS_GET_ART" << "\n";
         msgh.sendCode(ANS_GET_ART);
+        Article article;
+	try {article = dbptr->getArticle(getNameById(*dbptr,groupId),articleId);}
+	catch (std::runtime_error) {
+		cout << "Article not found" << "\n";
+		cout << "Sending code: ANS_NAK" << "\n";
+		msgh.sendCode(ANS_NAK);
+		cout << "Sending code: ANS_END" << "\n";
+		msgh.sendCode(ANS_END);
+		return;
+	}
         cout << "Sending code: ANS_ACK" << "\n";
         msgh.sendCode(ANS_ACK);
-        Article article = dbptr->getArticle(getNameById(*dbptr,groupId),articleId);
         cout << "Sending title: " << article.title << "\n";
         msgh.sendStringParameter(article.title);
         cout << "Sending author: " << article.author << "\n";

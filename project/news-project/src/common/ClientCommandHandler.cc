@@ -61,7 +61,15 @@ void ClientCommandHandler::process(string input) {
         std::getline(std::cin, text);
 	createArticle(groupId, title, author, text);
     }
-    else if (input == "6") {}
+    else if (input == "6") {
+	int groupId;
+	int articleId;
+	cout << "Input newsgroup id: ";
+	cin >> groupId;
+	cout << "Input article id: ";
+	cin >> articleId;
+	deleteArticle(groupId, articleId);
+    }
     else if (input == "7") {
 	int groupId;
 	int articleId;
@@ -160,7 +168,20 @@ void ClientCommandHandler::createArticle(int groupId, string title, string autho
 		} msgh.recCode();
 	}
 };
-void ClientCommandHandler::deleteArticle() {};
+void ClientCommandHandler::deleteArticle(int groupId, int articleId) {
+	msgh.sendCode(COM_DELETE_ART);
+	msgh.sendIntParameter(groupId);
+	msgh.sendIntParameter(articleId);
+	msgh.sendCode(COM_END);
+	msgh.recCode();
+	Protocol code = static_cast<Protocol>(msgh.recCode());
+	if (code == ANS_NAK) {
+		code = static_cast<Protocol>(msgh.recCode());
+		cout << code << "\n";
+	} else {
+		cout << "Article deleted" << "\n";
+	} msgh.recCode();
+};
 void ClientCommandHandler::getArticle(int groupId, int articleId) {
 	msgh.sendCode(COM_GET_ART);
 	msgh.sendIntParameter(groupId);
@@ -168,13 +189,17 @@ void ClientCommandHandler::getArticle(int groupId, int articleId) {
 	msgh.sendCode(COM_END);
 	Protocol code = static_cast<Protocol>(msgh.recCode());
 	if (code == ANS_GET_ART) {
-		msgh.recCode();
-		string title = msgh.recStringParameter();
-		string author = msgh.recStringParameter();
-		string text = msgh.recStringParameter();
-		cout << "Title: " << title << "\n";
-		cout << "Author: " << author << "\n";
-		cout << "---------------" << "\n";
-		cout << text << "\n";
+		code = static_cast<Protocol>(msgh.recCode());
+		if (code != ANS_NAK) {
+			string title = msgh.recStringParameter();
+			string author = msgh.recStringParameter();
+			string text = msgh.recStringParameter();
+			cout << "Title: " << title << "\n";
+			cout << "Author: " << author << "\n";
+			cout << "---------------" << "\n";
+			cout << text << "\n";
+		} else {
+			cout << "Article not found" << "\n";
+		}
 	} msgh.recCode();
 };
