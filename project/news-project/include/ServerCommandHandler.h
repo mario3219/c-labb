@@ -3,6 +3,7 @@
 
 #include "MessageHandler.h"
 #include "MemoryDatabase.h"
+#include "IDatabase.h"
 #include <list>
 #include <string>
 
@@ -13,7 +14,7 @@ class ServerCommandHandler
 {
 public:
     /*Constructors and destructors*/
-    ServerCommandHandler(const std::shared_ptr<Connection>& conn, MemoryDatabase* dbptr);
+    ServerCommandHandler(const std::shared_ptr<Connection>& conn, IDatabase* dbptr);
     ~ServerCommandHandler() = default;
 
     /*Checks commandbyte, then executes appropriate method
@@ -22,7 +23,7 @@ public:
 
 private:
     MessageHandler msgh;
-    MemoryDatabase* dbptr;
+    IDatabase* dbptr;
 
     /*Methods*/
     void listNewsgroups();

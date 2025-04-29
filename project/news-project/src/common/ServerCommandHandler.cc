@@ -5,6 +5,7 @@
 #include <iostream>
 #include "protocol.h"
 #include "MemoryDatabase.h"
+#include "IDatabase.h"
 #include <algorithm>
 #include <vector>
 
@@ -14,7 +15,7 @@ using std::cout;
 using enum Protocol;
 
 /*Constructors and destructors*/
-ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection>& conn, MemoryDatabase* dbptr) : msgh(*conn), dbptr(dbptr) 
+ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection>& conn, IDatabase* dbptr) : msgh(*conn), dbptr(dbptr) 
 {}
 
 /*Checks commandbyte, then executes appropriate method
@@ -87,7 +88,7 @@ void ServerCommandHandler::createNewsgroup(){
 
     /*TEMPORARY! The testserver selects newsgroups by id, but the delete function in MemoryDatabase
     uses groupnames*/
-    std::string getNameById(MemoryDatabase& db, int targetId) {
+    std::string getNameById(IDatabase& db, int targetId) {
         std::vector<Newsgroup> groups = db.listNewsgroups();
         for (const auto& group : groups) {
             if (group.id == targetId) {

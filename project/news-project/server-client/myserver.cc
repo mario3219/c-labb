@@ -4,6 +4,8 @@
 #include "MessageHandler.h"
 #include "ServerCommandHandler.h"
 #include "MemoryDatabase.h"
+#include "DriveDatabase.h"
+#include "IDatabase.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -25,7 +27,7 @@ using std::endl;
 
 /* --------------------------------------Server runtime--------------------------------------------*/
 
-void serve_one(Server& server, MemoryDatabase* dbptr)
+void serve_one(Server& server, IDatabase* dbptr)
 {
         auto conn = server.waitForActivity();
         ServerCommandHandler cmdh(conn, dbptr);
@@ -83,20 +85,22 @@ int main(int argc, char* argv[])
         auto server = init(argc, argv);
         
 	MemoryDatabase db;
-        MemoryDatabase* dbptr;
+	DriveDatabase ddb;
+        IDatabase* dbptr = nullptr;
 
 	string userinput;
 	cout << "Choose database type: " << "\n";
 	cout << "1: Memorybased" << "\n" << "2: Hard-drive based" << "\n" << "----------------------";
 
-	while (userinput != "1"/* && userinput != "2"*/) {
+	while (userinput != "1" && userinput != "2") {
 		cout << "\n" << ": ";
 		cin >> userinput;
 		if (userinput == "1") {
 			cout << "Initializing server with: Memorybased" << "\n";
 			dbptr = &db;
 		} else if (userinput == "2") {
-			cout << "Hard-drive based not implemented yet" << "\n";
+			cout << "Initializing server with: Hard-drive based" << "\n";
+			dbptr = &ddb;
 		} else {
 			cout << "Please choose one of the alternatives..." << "\n";
 		}
