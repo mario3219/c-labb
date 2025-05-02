@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
 	DriveDatabase ddb;
         cout << "Drvove database init try 2222: " << endl;
         IDatabase* dbptr = nullptr;
-
+        
 	string userinput;
 	cout << "Choose database type: " << "\n";
 	cout << "1: Memorybased" << "\n" << "2: Hard-drive based" << "\n" << "----------------------";
