@@ -71,6 +71,9 @@ distclean: clean
 	-rm $(SRC_COMMON:.cc=.d)
 	-rm $(SRC_DATABASE:.cc=.d)
 	-rm $(SRC_SERVER:.cc=.d)
+	-rm $(SRC_SERVER:.cc=.cc.swp)
+	-rm $(SRC_SERVER:.cc=.cc.swn)
+	-rm $(SRC_SERVER:.cc=.cc.swo)
 	make -C server-client distclean
 
 
