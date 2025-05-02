@@ -28,10 +28,10 @@ all: lib/libclientserver.a
 	make -C server-client
 
 runserver:
-	./server-client/myserver 2000
+	./server-client/myserver $(PORT)
 
 runclient:
-	./server-client/myclient localhost 2000
+	./server-client/myclient $(HOST) $(PORT)
 
 testserver1:
 	java -jar ../TestServer1.jar localhost 2000
