@@ -27,9 +27,11 @@ LDFLAGS =   -g -Llib
 all: lib/libclientserver.a
 	make -C server-client
 
+# USAGE EXAMPLE: make runserver PORT=2000
 runserver:
 	./server-client/myserver $(PORT)
 
+# USAGE EXAMPLE: make runclient HOST=localhost PORT=2000
 runclient:
 	./server-client/myclient $(HOST) $(PORT)
 
