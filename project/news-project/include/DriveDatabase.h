@@ -1,6 +1,7 @@
 #pragma once
 #include "IDatabase.h"
 #include <map>
+#include <filesystem>
 
 class DriveDatabase : public IDatabase
 {
@@ -19,6 +20,7 @@ public:
 private:
     int nextNewsgroupId = 1;
     int nextArticleId = 1;
+    std::filesystem::path dbPath;
 
     std::map<std::string, Newsgroup> newsgroups;
 };
