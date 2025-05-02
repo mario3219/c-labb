@@ -9,51 +9,71 @@
 #include <algorithm>
 #include <vector>
 
+using std::cout;
 using std::list;
 using std::string;
-using std::cout;
 using enum Protocol;
 
 /*Constructors and destructors*/
-ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection>& conn, IDatabase* dbptr) : msgh(*conn), dbptr(dbptr) 
-{}
+ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection> &conn, IDatabase *dbptr) : msgh(*conn), dbptr(dbptr)
+{
+}
 
 /*Checks commandbyte, then executes appropriate method
 according to what command is returned*/
-void ServerCommandHandler::process(){
+void ServerCommandHandler::process()
+{
     cout << "---Waiting for new request---" << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
-    if (code == COM_LIST_NG) {
+    if (code == COM_LIST_NG)
+    {
         listNewsgroups();
-    } else if (code == COM_CREATE_NG) {
+    }
+    else if (code == COM_CREATE_NG)
+    {
         createNewsgroup();
-    } else if (code == COM_DELETE_NG) {
+    }
+    else if (code == COM_DELETE_NG)
+    {
         deleteNewsgroup();
-    } else if (code == COM_LIST_ART) {
+    }
+    else if (code == COM_LIST_ART)
+    {
         listArticles();
-    } else if (code == COM_CREATE_ART) {
+    }
+    else if (code == COM_CREATE_ART)
+    {
         createArticle();
-    } else if (code == COM_DELETE_ART) {
+    }
+    else if (code == COM_DELETE_ART)
+    {
         deleteArticle();
-    } else if (code == COM_GET_ART){
+    }
+    else if (code == COM_GET_ART)
+    {
         getArticle();
-    } else {
+    }
+    else
+    {
         cout << code << " has no implemented function" << "\n";
     }
 };
 
 /*Methods*/
 
-void ServerCommandHandler::listNewsgroups() {
+void ServerCommandHandler::listNewsgroups()
+{
     Protocol code = static_cast<Protocol>(msgh.recCode());
-    std::vector<Newsgroup> list = dbptr->listNewsgroups();  
-    if (code == COM_END) {
+    std::vector<Newsgroup> list = dbptr->listNewsgroups();
+    if (code == COM_END)
+    {
         msgh.sendCode(ANS_LIST_NG);
         cout << "Sending int: list.size() = " << list.size() << "\n";
         msgh.sendIntParameter(list.size());
         cout << "Starting send group names and ids..." << "\n";
-        for (Newsgroup group : list) {
+        for (Newsgroup group : list)
+        {
             cout << group.id << " : " << group.name << "\n";
             msgh.sendIntParameter(group.id);
             msgh.sendStringParameter(group.name);
@@ -63,18 +83,23 @@ void ServerCommandHandler::listNewsgroups() {
     }
 };
 
-void ServerCommandHandler::createNewsgroup(){
+void ServerCommandHandler::createNewsgroup()
+{
     string newsgroup_name = msgh.recStringParameter();
     Protocol code = static_cast<Protocol>(msgh.recCode());
-    if (code == COM_END) {
+    if (code == COM_END)
+    {
         cout << "Received group name: " << newsgroup_name << "\n";
         msgh.sendCode(ANS_CREATE_NG);
         bool status = dbptr->createNewsgroup(newsgroup_name);
-        if (status == true) {
+        if (status == true)
+        {
             cout << "Created newsgroup: " << newsgroup_name << "\n";
             cout << "Sending code: ANS_ACK" << "\n";
-	    msgh.sendCode(ANS_ACK);
-        } else {
+            msgh.sendCode(ANS_ACK);
+        }
+        else
+        {
             cout << "FAILED creating newsgroup " << newsgroup_name << "\n";
             cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
@@ -86,32 +111,40 @@ void ServerCommandHandler::createNewsgroup(){
     }
 };
 
-    /*TEMPORARY! The testserver selects newsgroups by id, but the delete function in MemoryDatabase
-    uses groupnames*/
-    std::string getNameById(IDatabase& db, int targetId) {
-        std::vector<Newsgroup> groups = db.listNewsgroups();
-        for (const auto& group : groups) {
-            if (group.id == targetId) {
-                return group.name;
-            }
+/*TEMPORARY! The testserver selects newsgroups by id, but the delete function in MemoryDatabase
+uses groupnames*/
+std::string getNameById(IDatabase &db, int targetId)
+{
+    std::vector<Newsgroup> groups = db.listNewsgroups();
+    for (const auto &group : groups)
+    {
+        if (group.id == targetId)
+        {
+            return group.name;
         }
-        return "NOT_FOUND";
     }
+    return "NOT_FOUND";
+}
 
-void ServerCommandHandler::deleteNewsgroup(){
+void ServerCommandHandler::deleteNewsgroup()
+{
 
     int groupIndex = msgh.recIntParameter();
     cout << "Received group index: " << groupIndex << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
-    if (code == COM_END) {
+    if (code == COM_END)
+    {
         cout << "Sending : ANS_DELETE_NG" << "\n";
         msgh.sendCode(ANS_DELETE_NG);
-        bool status = dbptr->deleteNewsgroup(getNameById(*dbptr,groupIndex));
-        if (status != false) {
+        bool status = dbptr->deleteNewsgroup(groupIndex);
+        if (status != false)
+        {
             cout << "Group deleted" << "\n";
             msgh.sendCode(ANS_ACK);
-        } else {
+        }
+        else
+        {
             cout << "Failed deleting group" << "\n";
             cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
@@ -123,21 +156,23 @@ void ServerCommandHandler::deleteNewsgroup(){
     }
 };
 
-void ServerCommandHandler::listArticles(){
+void ServerCommandHandler::listArticles()
+{
     int groupId = msgh.recIntParameter();
     cout << "Received groupId: " << groupId << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
-    if (code == COM_END) {
+    if (code == COM_END)
+    {
         cout << "Sending code: ANS_LIST_ART" << "\n";
         msgh.sendCode(ANS_LIST_ART);
-        std::vector<Newsgroup> list = dbptr->listNewsgroups();  
+        std::vector<Newsgroup> list = dbptr->listNewsgroups();
 
         /* TEMP - executes if newsgroup does not exist, but should be implemented in the database class*/
-        auto it = std::find_if(list.begin(), list.end(), [groupId](const Newsgroup& s) {
-            return s.id == groupId;
-        });
-        if (it == list.end()) {
+        auto it = std::find_if(list.begin(), list.end(), [groupId](const Newsgroup &s)
+                               { return s.id == groupId; });
+        if (it == list.end())
+        {
             cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
             cout << "Sending code: ERR_NG_DOES_NOT_EXIST" << "\n";
@@ -148,16 +183,16 @@ void ServerCommandHandler::listArticles(){
         }
 
         /*TEMP - should change container to an ordered set in database class*/
-        std::vector<Article> articles = dbptr->listArticles(getNameById(*dbptr,groupId));
-        std::sort(articles.begin(), articles.end(), [](const Article& a, const Article& b) {
-            return a.id < b.id;
-        });
+        std::vector<Article> articles = dbptr->listArticles(groupId);
+        std::sort(articles.begin(), articles.end(), [](const Article &a, const Article &b)
+                  { return a.id < b.id; });
         cout << "Sending code: ANS_ACK" << "\n";
         msgh.sendCode(ANS_ACK);
-        cout << "Sending article list size: " << articles.size() <<"\n";
+        cout << "Sending article list size: " << articles.size() << "\n";
         msgh.sendIntParameter(articles.size());
         cout << "Starting send article names and ids..." << "\n";
-        for (Article article : articles) {
+        for (Article article : articles)
+        {
             cout << article.id << " : " << article.title << "\n";
             msgh.sendIntParameter(article.id);
             msgh.sendStringParameter(article.title);
@@ -166,7 +201,8 @@ void ServerCommandHandler::listArticles(){
         msgh.sendCode(ANS_END);
     }
 };
-void ServerCommandHandler::createArticle(){
+void ServerCommandHandler::createArticle()
+{
     int groupId = msgh.recIntParameter();
     cout << "Received groupId: " << groupId << "\n";
     string title = msgh.recStringParameter();
@@ -177,15 +213,19 @@ void ServerCommandHandler::createArticle(){
     cout << "Received text: " << text << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     bool status;
-    if (code == COM_END) {
+    if (code == COM_END)
+    {
         cout << "Sending code: ANS_CREATE_ART" << "\n";
         msgh.sendCode(ANS_CREATE_ART);
-        status = dbptr->createArticle(getNameById(*dbptr,groupId),title,author,text);
-        if (status == true) {
+        status = dbptr->createArticle(groupId, title, author, text);
+        if (status == true)
+        {
             cout << "Article created" << "\n";
             cout << "Sending code: ANS_ACK" << "\n";
             msgh.sendCode(ANS_ACK);
-        } else {
+        }
+        else
+        {
             cout << "FAILED creating article" << "\n";
             cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
@@ -196,54 +236,64 @@ void ServerCommandHandler::createArticle(){
         msgh.sendCode(ANS_END);
     }
 };
-void ServerCommandHandler::deleteArticle(){
+void ServerCommandHandler::deleteArticle()
+{
     int groupId = msgh.recIntParameter();
     cout << "Received groupId: " << groupId << "\n";
     int articleId = msgh.recIntParameter();
     cout << "Received articleId: " << articleId << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
-    if (code == COM_END) {
+    if (code == COM_END)
+    {
         cout << "Sending code: ANS_DELETE_ART" << "\n";
         msgh.sendCode(ANS_DELETE_ART);
-	bool status = dbptr->deleteArticle(getNameById(*dbptr,groupId),articleId);
-        if (status == true) {
-		cout << "Sending code: ANS_ACK" << "\n";
- 	       	msgh.sendCode(ANS_ACK);
-		cout << "Article deleted" << "\n";
-	} else {
-		cout << "Sending code: ANS_NAK" << "\n";
- 	       	msgh.sendCode(ANS_NAK);
-		cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";
-		msgh.sendCode(ERR_ART_DOES_NOT_EXIST);
-	}
+        bool status = dbptr->deleteArticle(groupId, articleId);
+        if (status == true)
+        {
+            cout << "Sending code: ANS_ACK" << "\n";
+            msgh.sendCode(ANS_ACK);
+            cout << "Article deleted" << "\n";
+        }
+        else
+        {
+            cout << "Sending code: ANS_NAK" << "\n";
+            msgh.sendCode(ANS_NAK);
+            cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";
+            msgh.sendCode(ERR_ART_DOES_NOT_EXIST);
+        }
         cout << "Sending code: ANS_END" << "\n";
         msgh.sendCode(ANS_END);
     }
-    
 };
-void ServerCommandHandler::getArticle(){
+void ServerCommandHandler::getArticle()
+{
     int groupId = msgh.recIntParameter();
     cout << "Received groupId: " << groupId << "\n";
     int articleId = msgh.recIntParameter();
     cout << "Received articleId" << articleId << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
-    if (code == COM_END) {
+    if (code == COM_END)
+    {
         cout << "Sending code: ANS_GET_ART" << "\n";
         msgh.sendCode(ANS_GET_ART);
         Article article;
-	try {article = dbptr->getArticle(getNameById(*dbptr,groupId),articleId);}
-	catch (std::runtime_error) {
-		cout << "Article not found" << "\n";
-		cout << "Sending code: ANS_NAK" << "\n";
-		msgh.sendCode(ANS_NAK);
-		cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";
-		msgh.sendCode(ERR_ART_DOES_NOT_EXIST);
-		cout << "Sending code: ANS_END" << "\n";
-		msgh.sendCode(ANS_END);
-		return;
-	}
+        try
+        {
+            article = dbptr->getArticle(groupId, articleId);
+        }
+        catch (std::runtime_error)
+        {
+            cout << "Article not found" << "\n";
+            cout << "Sending code: ANS_NAK" << "\n";
+            msgh.sendCode(ANS_NAK);
+            cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";
+            msgh.sendCode(ERR_ART_DOES_NOT_EXIST);
+            cout << "Sending code: ANS_END" << "\n";
+            msgh.sendCode(ANS_END);
+            return;
+        }
         cout << "Sending code: ANS_ACK" << "\n";
         msgh.sendCode(ANS_ACK);
         cout << "Sending title: " << article.title << "\n";
