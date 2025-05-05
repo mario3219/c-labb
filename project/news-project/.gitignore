@@ -6,3 +6,6 @@
 
 # Ignore the lib directory if it's generated during the build
 lib/
+
+# Ignore swap files
+*.swp

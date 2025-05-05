@@ -1,5 +1,6 @@
 #include "MessageHandler.h"
 #include <memory>
+#include <stdexcept>
 
 using std::string;
 /*Constructors and destructors*/
@@ -80,7 +81,10 @@ int MessageHandler::recInt()
 string MessageHandler::recStringParameter()
 {
     int code = recCode(); // Doesnt check if the code is PAR_STRING! FIX
-
+    if (code != static_cast<int>(Protocol::PAR_STRING))
+    {
+        throw std::runtime_error("Expected PAR_STRING code");
+    }
     int n = recInt();
 
     string result;
