@@ -86,6 +86,10 @@ string MessageHandler::recStringParameter()
         throw std::runtime_error("Expected PAR_STRING code");
     }
     int n = recInt();
+    //if (n<0)
+    //{
+    //    throw std::runtime_error("Number of characters < 0");
+    //}
 
     string result;
 
@@ -101,5 +105,9 @@ string MessageHandler::recStringParameter()
 int MessageHandler::recIntParameter()
 {
     int code = recCode();
+    if (code != static_cast<int>(Protocol::PAR_NUM))
+    {
+        throw std::runtime_error("Expected PAR_NUM code");
+    }
     return recInt();
 }

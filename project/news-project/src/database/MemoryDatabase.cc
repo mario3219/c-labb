@@ -70,7 +70,7 @@ bool MemoryDatabase::createArticle(int id, const std::string &title, const std::
         article.author = author;
         article.title = title;
         article.content = content;
-        article.id = nextArticleId++;
+        article.id = newsgroups[id].nextArticleId++;
         newsgroups[id].articles.insert({article.id, article});
         return true;
     }

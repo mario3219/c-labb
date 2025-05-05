@@ -283,9 +283,9 @@ void ServerCommandHandler::getArticle()
         {
             article = dbptr->getArticle(groupId, articleId);
         }
-        catch (std::runtime_error)
+        catch (const std::runtime_error& e)
         {
-            cout << "Article not found" << "\n";
+            cout << e.what() << "\n";
             cout << "Sending code: ANS_NAK" << "\n";
             msgh.sendCode(ANS_NAK);
             cout << "Sending code: ERR_ART_DOES_NOT_EXIST" << "\n";

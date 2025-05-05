@@ -16,6 +16,7 @@ struct Article
 struct Newsgroup
 {
     int id;
+    int nextArticleId = 1;
     std::string name;
     std::unordered_map<int, Article> articles;
 };

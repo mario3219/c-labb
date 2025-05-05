@@ -186,7 +186,7 @@ void ClientCommandHandler::getArticle(int groupId, int articleId) {
 	Protocol code = static_cast<Protocol>(msgh.recCode());
 	if (code == ANS_GET_ART) {
 		code = static_cast<Protocol>(msgh.recCode());
-		if (code != ANS_NAK) {
+		if (code == ANS_ACK) {
 			string title = msgh.recStringParameter();
 			string author = msgh.recStringParameter();
 			string text = msgh.recStringParameter();
@@ -195,7 +195,10 @@ void ClientCommandHandler::getArticle(int groupId, int articleId) {
 			cout << "---------------" << "\n";
 			cout << text << "\n";
 		} else {
-			cout << "Article not found" << "\n";
+			code = static_cast<Protocol>(msgh.recCode());
+			if (code == ERR_ART_DOES_NOT_EXIST){
+				cout << "Newsgroup/Article was not found" << "\n";
+			}
 		}
 	} msgh.recCode();
 };
