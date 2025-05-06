@@ -83,10 +83,8 @@ Server init(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
         
-        
 	MemoryDatabase db;
 	DriveDatabase ddb;
-        cout << "Drvove database init try 12: " << endl;
         IDatabase* dbptr = nullptr;
         
 	string userinput;

@@ -17,58 +17,6 @@ DriveDatabase::DriveDatabase() {
     } else {
         std::cout << "Database directory exists" << std::endl;
     }
-
-    for (const auto& dir : directory_iterator(dbPath)){
-        if (is_directory(dir)){
-            Newsgroup newsgroup;
-
-            std::string dirString = dir.path().filename().string();
-            int dirId = stoi(dirString.substr(0, 2));
-            std::string dirName = dirString.substr(2);
-
-            newsgroup.id = dirId;
-            newsgroup.name = dirName;
-            newsgroups[dirId] = newsgroup;
-            nextNewsgroupId = dirId + 1;
-
-            for(const auto& articleFile : directory_iterator(dbPath / dirString)){
-                std::ifstream articleFileName(articleFile.path());
-                std::string titleLine;
-                std::string authorLine;
-                std::string title;
-                std::string author;
-                std::string content;
-
-                if (std::getline(articleFileName, titleLine)){
-                    title = titleLine.substr(10);
-                    //std::cout << title << std::endl; test
-                }
-                if (std::getline(articleFileName, authorLine)){
-                    author = authorLine.substr(10);
-
-
-                    std::ostringstream ss;
-                    ss << articleFileName.rdbuf();      
-                    content = ss.str();
-                }
-                std::string fileString = articleFile.path().filename().string();
-                int fileId = stoi(fileString.substr(0, 2));
-                std::string fileName = fileString.substr(2);
-                
-
-                Article article;
-                article.author = author;
-                article.title = title;
-                article.content = content;
-                article.id = fileId;
-                newsgroups[dirId].articles.insert({article.id, article});
-                //nextArticleId = fileId + 1;
-                newsgroups[dirId].nextArticleId = fileId + 1;
-            }
-        }
-    }
-    
-
 }
 
 std::string idConverter(int id, std::string name){
@@ -83,57 +31,64 @@ std::string idConverter(int id, std::string name){
 std::vector<Newsgroup> DriveDatabase::listNewsgroups() const // returns a vector of all newsgroups in the order they where created
 {
     std::vector<Newsgroup> result;
-    for (const auto &pair : newsgroups)
-    {
-        result.push_back(pair.second);
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
+            Newsgroup newsgroup;
+
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2));
+            std::string dirName = dirString.substr(2);
+
+            newsgroup.id = dirId;
+            newsgroup.name = dirName;
+            result.push_back(newsgroup);
+
+        }
     }
     return result;
+
 }
 
 bool DriveDatabase::createNewsgroup(const std::string &name)
 {
+    int nextId = 1;
 
-    //if (exists(dbPath / name))
-    //{
-    //    return false; // Newsgroup already exists
-    //}
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
 
-    for (auto &pair : newsgroups)
-    {
-        if (pair.second.name == name)
-        {
-            return false; // Newsgroup already exists
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2)); //add try catch?
+            std::string dirName = dirString.substr(2);
+
+            if (dirName == name){
+                return false; //it already exists
+            }
+            nextId = dirId + 1;
+
         }
     }
-    Newsgroup newsgroup;
-    newsgroup.id = nextNewsgroupId++;
-    newsgroup.name = name;
-    newsgroups[newsgroup.id] = newsgroup;
-
-
-    //adding to disk
-    std::string dirName = idConverter(newsgroup.id, name);
+    std::string dirName = idConverter(nextId, name);
     create_directory(dbPath / dirName);
-
 
     return true;
 }
 
 bool DriveDatabase::deleteNewsgroup(int newsgroupId)
 {
-    //if (!(exists(dbPath / newsgroup_name)))
-    //{
-    //    return false; // Newsgroup does not exist
-    //}
-    auto it = newsgroups.find(newsgroupId);
-    
-    if (it != newsgroups.end())
-    {
-        std::string dirName = idConverter(newsgroupId, it->second.name);
-        remove_all(dbPath / dirName);
-        newsgroups.erase(it);
 
-        return true;
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
+
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2)); //add try catch?
+            //std::string dirName = dirString.substr(2);
+            
+            if (dirId == newsgroupId){
+                remove_all(dbPath / dirString);
+                return true; //newsgroup deleted
+            }
+
+        }
     }
     return false;
 }
@@ -141,12 +96,30 @@ bool DriveDatabase::deleteNewsgroup(int newsgroupId)
 std::vector<Article> DriveDatabase::listArticles(int id) const
 {
     std::vector<Article> result;
-    auto it = newsgroups.find(id);
-    if (it != newsgroups.end())
-    {
-        for (const auto &article : it->second.articles)
-        {
-            result.push_back(article.second);
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
+
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2)); //add try catch?
+            //std::string dirName = dirString.substr(2);
+            
+            if (dirId == id){
+
+                for(const auto& articleFile : directory_iterator(dbPath / dirString)){
+
+                    std::string fileString = articleFile.path().filename().string();
+                    int fileId = stoi(fileString.substr(0, 2));
+                    std::string articleName = fileString.substr(2);
+
+                    Article article;
+                    article.title = articleName;
+                    article.id = fileId;
+                    result.push_back(article);
+
+                }
+                return result;
+
+            }
         }
     }
     return result;
@@ -154,73 +127,129 @@ std::vector<Article> DriveDatabase::listArticles(int id) const
 
 bool DriveDatabase::createArticle(int id, const std::string &title, const std::string &author, const std::string &content)
 {
-    //if (!(exists(dbPath / newsgroup_name)))
-    //{
-    //    return false;
-    //}
-    if (newsgroups.find(id) == newsgroups.end())
-    {
-        return false;
-    }
-    else
-    {
-        Article article;
-        article.author = author;
-        article.title = title;
-        article.content = content;
-        article.id = newsgroups[id].nextArticleId++;
-        newsgroups[id].articles.insert({article.id, article});
 
-        std::string dirName = idConverter(id, newsgroups[id].name);
-        std::string fileName = idConverter(article.id, title);
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
 
-        path articlePath = dbPath / dirName / fileName;
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2)); //add try catch?
+            //std::string dirName = dirString.substr(2);
+            
+            if (dirId == id){
 
-        std::ofstream articleFile(articlePath);
-        if (articleFile.is_open()){
-            articleFile << "Title:    " << title << std::endl;
-            articleFile << "Author:   " << author << std::endl;
-            //articleFile << "---------" << std::endl;
-            articleFile << content << std::endl;
-            articleFile.close();
-        } else {
-            std::cout << "Failed to create article" << std::endl;
+                int nextId = 1;
+
+                for(const auto& articleFile : directory_iterator(dbPath / dirString)){
+
+                    std::string fileString = articleFile.path().filename().string();
+                    int fileId = stoi(fileString.substr(0, 2));
+                    nextId = fileId + 1;
+
+                }
+        
+                //std::string dirName = idConverter(id, newsgroups[i);
+                std::string fileName = idConverter(nextId, title);
+        
+                path articlePath = dbPath / dirString / fileName;
+        
+                std::ofstream articleFile(articlePath);
+                if (articleFile.is_open()){
+                    articleFile << "Title:    " << title << std::endl;
+                    articleFile << "Author:   " << author << std::endl;
+                    //articleFile << "---------" << std::endl;
+                    articleFile << content << std::endl;
+                    articleFile.close();
+                } else {
+                    std::cout << "Failed to create article" << std::endl;
+                }
+                return true;            
+                
+            }
         }
-        return true;
     }
+    return false;
 }
 
 bool DriveDatabase::deleteArticle(int newsgroupId, int articleId)
 {
-    auto it = newsgroups.find(newsgroupId);
-    if (it == newsgroups.end())
-    {
-        return false; // Newsgroup not found
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
+
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2)); //add try catch?
+            //std::string dirName = dirString.substr(2);
+            
+            if (dirId == newsgroupId){
+
+                for(const auto& articleFile : directory_iterator(dbPath / dirString)){
+
+                    std::string fileString = articleFile.path().filename().string();
+                    int fileId = stoi(fileString.substr(0, 2)); //add try catch??
+                    std::string articleName = fileString.substr(2);
+
+                    if (fileId == articleId){
+                        return remove(dbPath / dirString / fileString); //article deleted
+                    }
+
+                }
+                
+            }
+        }
     }
-    auto articleIt = it->second.articles.find(articleId);
-    if (articleIt == it->second.articles.end())
-    {
-        return false; // Article not found
-    }
-    // Remove the article from the newsgroup
-    std::string dirName = idConverter(newsgroupId, newsgroups[newsgroupId].name);
-    std::string fileName = idConverter(articleId, newsgroups[newsgroupId].articles[articleId].title);
-    remove_all(dbPath / dirName / fileName);
-    newsgroups[newsgroupId].articles.erase(articleId);
-    return true;
+    return false;
 }
 
 Article DriveDatabase::getArticle(int newsgroupId, int articleId) const
 {
-    auto it = newsgroups.find(newsgroupId);
-    if (it == newsgroups.end())
-    {
-        throw std::runtime_error("Newsgroup not found");
+    for (const auto& dir : directory_iterator(dbPath)){
+        if (is_directory(dir)){
+
+            std::string dirString = dir.path().filename().string();
+            int dirId = stoi(dirString.substr(0, 2)); //add try catch?
+            //std::string dirName = dirString.substr(2);
+            
+            if (dirId == newsgroupId){
+
+                for(const auto& articleFile : directory_iterator(dbPath / dirString)){
+
+                    std::string fileString = articleFile.path().filename().string();
+                    int fileId = stoi(fileString.substr(0, 2)); //add try catch??
+                    std::string articleName = fileString.substr(2);
+
+                    if (fileId == articleId){
+                        std::ifstream articleFileName(articleFile.path());
+                        std::string titleLine;
+                        std::string authorLine;
+                        std::string title;
+                        std::string author;
+                        std::string content;
+                        if (std::getline(articleFileName, titleLine)){
+                            title = titleLine.substr(10);
+                            //std::cout << title << std::endl; test
+                        }
+                        if (std::getline(articleFileName, authorLine)){
+                            author = authorLine.substr(10);
+                        
+                            std::ostringstream ss;
+                            ss << articleFileName.rdbuf();      
+                            content = ss.str();
+                            if (!content.empty() && content.back() == '\n') {
+                                content.pop_back();
+                            }
+                        }
+                    
+                        Article article;
+                        article.author = author;
+                        article.title = title;
+                        article.content = content;
+                        article.id = fileId;
+                        return article;
+                    }
+
+                }
+                throw std::runtime_error("Article not found");  
+            }
+        }
     }
-    const auto &articles = it->second.articles.find(articleId);
-    if (articles == it->second.articles.end())
-    {
-        throw std::runtime_error("Article not found");
-    }
-    return articles->second;
+    throw std::runtime_error("Newsgroup not found");
 }
