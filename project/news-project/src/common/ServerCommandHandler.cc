@@ -26,37 +26,38 @@ void ServerCommandHandler::process()
     cout << "---Waiting for new request---" << "\n";
     Protocol code = static_cast<Protocol>(msgh.recCode());
     cout << "Received code: " << code << "\n";
-    if (code == COM_LIST_NG)
-    {
+    switch (code){
+        case COM_LIST_NG: {
         listNewsgroups();
+        break;
     }
-    else if (code == COM_CREATE_NG)
-    {
+        case COM_CREATE_NG: {
         createNewsgroup();
+        break;
     }
-    else if (code == COM_DELETE_NG)
-    {
+        case COM_DELETE_NG: {
         deleteNewsgroup();
+        break;
     }
-    else if (code == COM_LIST_ART)
-    {
+        case COM_LIST_ART: {
         listArticles();
+        break;
     }
-    else if (code == COM_CREATE_ART)
-    {
+        case COM_CREATE_ART: {
         createArticle();
+        break;
     }
-    else if (code == COM_DELETE_ART)
-    {
+        case COM_DELETE_ART: {
         deleteArticle();
+        break;
     }
-    else if (code == COM_GET_ART)
-    {
+        case COM_GET_ART: {
         getArticle();
+        break;
     }
-    else
-    {
+        default:
         cout << code << " has no implemented function" << "\n";
+        break;
     }
 };
 

@@ -20,66 +20,83 @@ ClientCommandHandler::ClientCommandHandler(const Connection &conn) : msgh(conn) 
 /*Checks commandbyte, then executes appropriate method
 according to what command is returned*/
 void ClientCommandHandler::process(string input) {
-    if (input == "1") {
-        cout << "Newsgroups: " << "\n";
-        listNewsgroups();
-    }
-    else if (input == "2") {
-        cout << "Input newsgroup name: ";
-        string name;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::getline(std::cin, name);
-        createNewsgroup(name);
-    }
-    else if (input == "3") {
-	cout << "Input newsgroup id: ";
-        int groupId;
-	cin >> groupId;
-        deleteNewsgroup(groupId);
-    }
-    else if (input == "4") {
-	int groupId;
-	cout << "Input newsgroup id: ";
-	cin >> groupId;
-	listArticles(groupId);
-    }
-    else if (input == "5") {
-	int groupId;
-	string title;
-	string author;
-	string text;
-	cout << "Input newsgroup id: ";
-	cin >> groupId;
-	cout << "Input article title: ";
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::getline(std::cin, title);
-	cout << "Input author: ";
-        std::getline(std::cin, author);
-	cout << "Input text: ";
-        std::getline(std::cin, text);
-	createArticle(groupId, title, author, text);
-    }
-    else if (input == "6") {
-	int groupId;
-	int articleId;
-	cout << "Input newsgroup id: ";
-	cin >> groupId;
-	cout << "Input article id: ";
-	cin >> articleId;
-	deleteArticle(groupId, articleId);
-    }
-    else if (input == "7") {
-	int groupId;
-	int articleId;
-	cout << "Input newsgroup id: ";
-	cin >> groupId;
-	cout << "Input article id: ";
-	cin >> articleId;
-	getArticle(groupId, articleId);
-    }
-    else {
-        cout << "Please provide a valid input" << "\n";
-    }
+	int in;
+	try {
+		in = std::stoi(input);
+	} catch (const std::invalid_argument&){
+		cout << "Your input needs to be a number!\n";
+		cout << "Please provide a valid input" << "\n";
+		return;
+	}
+	switch (in){
+		case 1: {
+			cout << "Newsgroups: " << "\n";
+			listNewsgroups();
+			break;
+		}
+		case 2: {
+			cout << "Input newsgroup name: ";
+			string name;
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::getline(std::cin, name);
+			createNewsgroup(name);
+			break;
+		}
+		case 3: {
+			cout << "Input newsgroup id: ";
+			int groupId;
+			cin >> groupId;
+			deleteNewsgroup(groupId);
+			break;
+		}
+		case 4: {
+		    int groupId;
+			cout << "Input newsgroup id: ";
+			cin >> groupId;
+			listArticles(groupId);
+			break;
+		}
+		case 5: {
+			int groupId;
+			string title;
+			string author;
+			string text;
+			cout << "Input newsgroup id: ";
+			cin >> groupId;
+			cout << "Input article title: ";
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::getline(std::cin, title);
+			cout << "Input author: ";
+				std::getline(std::cin, author);
+			cout << "Input text: ";
+				std::getline(std::cin, text);
+			createArticle(groupId, title, author, text);
+			break;
+		}
+		case 6: {
+			int groupId;
+			int articleId;
+			cout << "Input newsgroup id: ";
+			cin >> groupId;
+			cout << "Input article id: ";
+			cin >> articleId;
+			deleteArticle(groupId, articleId);
+			break;
+		}
+		case 7: {
+			int groupId;
+			int articleId;
+			cout << "Input newsgroup id: ";
+			cin >> groupId;
+			cout << "Input article id: ";
+			cin >> articleId;
+			getArticle(groupId, articleId);
+			break;
+		}
+		default:
+			cout << "Please provide a valid input" << "\n";
+			break;
+	}
 };
 
 /*Methods*/
