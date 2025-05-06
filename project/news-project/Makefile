@@ -27,11 +27,13 @@ LDFLAGS =   -g -Llib
 all: lib/libclientserver.a
 	make -C server-client
 
+# USAGE EXAMPLE: make runserver PORT=2000
 runserver:
-	./server-client/myserver 2000
+	./server-client/myserver $(PORT)
 
+# USAGE EXAMPLE: make runclient HOST=localhost PORT=2000
 runclient:
-	./server-client/myclient localhost 2000
+	./server-client/myclient $(HOST) $(PORT)
 
 testserver1:
 	java -jar ../TestServer1.jar localhost 2000
@@ -71,6 +73,9 @@ distclean: clean
 	-rm $(SRC_COMMON:.cc=.d)
 	-rm $(SRC_DATABASE:.cc=.d)
 	-rm $(SRC_SERVER:.cc=.d)
+	-rm $(SRC_SERVER:.cc=.cc.swp)
+	-rm $(SRC_SERVER:.cc=.cc.swn)
+	-rm $(SRC_SERVER:.cc=.cc.swo)
 	make -C server-client distclean
 
 

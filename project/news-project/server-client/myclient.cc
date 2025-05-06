@@ -29,7 +29,7 @@ void writeUI() {
         cout << "5. Create article\n";
         cout << "6. Delete article\n";
         cout << "7. Get article\n";
-        cout << "--------\nInput: ";
+        //cout << "--------\nInput: ";
 }
 
 /* --------------------------------------Client runtime--------------------------------------------*/
@@ -43,13 +43,16 @@ int app(const Connection& conn)
 
         cout << "Welcome to our server! Please write the number to the corresponding alternative:\n" << "--------\n";
         writeUI();
+        cout << "--------\nInput: ";
         while (RUNTIME && cin >> usr_input) {
                 /* Input client methods here */
                 try {
                         /* SUGGESTED FORMAT
                         cmdh.process();
                         */
+                        
                         cmdh.process(usr_input);
+                        //writeUI();
 
                 /* Closed connection handler */
                 } catch (ConnectionClosedException&) {

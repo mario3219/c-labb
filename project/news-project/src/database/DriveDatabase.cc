@@ -121,7 +121,7 @@ bool DriveDatabase::createNewsgroup(const std::string &name)
     return true;
 }
 
-bool DriveDatabase::deleteNewsgroup(std::string newsgroup_name)
+bool DriveDatabase::deleteNewsgroup(int newsgroupId)
 {
     //if (!(exists(dbPath / newsgroup_name)))
     //{
@@ -140,10 +140,10 @@ bool DriveDatabase::deleteNewsgroup(std::string newsgroup_name)
     return false;
 }
 
-std::vector<Article> DriveDatabase::listArticles(std::string newsgroup_name) const
+std::vector<Article> DriveDatabase::listArticles(int id) const
 {
     std::vector<Article> result;
-    auto it = newsgroups.find(newsgroup_name);
+    auto it = newsgroups.find(id);
     if (it != newsgroups.end())
     {
         for (const auto &article : it->second.articles)
@@ -154,7 +154,7 @@ std::vector<Article> DriveDatabase::listArticles(std::string newsgroup_name) con
     return result;
 }
 
-bool DriveDatabase::createArticle(std::string newsgroup_name, const std::string &title, const std::string &author, const std::string &content)
+bool DriveDatabase::createArticle(int id, const std::string &title, const std::string &author, const std::string &content)
 {
     //if (!(exists(dbPath / newsgroup_name)))
     //{
@@ -192,10 +192,10 @@ bool DriveDatabase::createArticle(std::string newsgroup_name, const std::string 
     }
 }
 
-bool DriveDatabase::deleteArticle(std::string newsgroup_name, int articleId)
+bool DriveDatabase::deleteArticle(int newsgroupId, int articleId)
 {
-    auto it = newsgroups.find(newsgroup_name);
-    if (it != newsgroups.end())
+    auto it = newsgroups.find(newsgroupId);
+    if (it == newsgroups.end())
     {
         return false; // Newsgroup not found
     }
@@ -212,16 +212,17 @@ bool DriveDatabase::deleteArticle(std::string newsgroup_name, int articleId)
     return true;
 }
 
-Article DriveDatabase::getArticle(std::string newsgroup_name, int articleId) const
+Article DriveDatabase::getArticle(int newsgroupId, int articleId) const
 {
-    auto it = newsgroups.find(newsgroup_name);
-    if (it != newsgroups.end())
+    auto it = newsgroups.find(newsgroupId);
+    if (it == newsgroups.end())
     {
-        auto articleIt = it->second.articles.find(articleId);
-        if (articleIt != it->second.articles.end())
-        {
-            return articleIt->second;
-        }
+        throw std::runtime_error("Newsgroup not found");
     }
-    throw std::runtime_error("Article not found");
+    const auto &articles = it->second.articles.find(articleId);
+    if (articles == it->second.articles.end())
+    {
+        throw std::runtime_error("Article not found");
+    }
+    return articles->second;
 }

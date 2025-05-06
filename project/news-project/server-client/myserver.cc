@@ -82,7 +82,7 @@ Server init(int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
-        auto server = init(argc, argv);
+        
         
 	MemoryDatabase db;
 	DriveDatabase ddb;
@@ -106,6 +106,8 @@ int main(int argc, char* argv[])
 			cout << "Please choose one of the alternatives..." << "\n";
 		}
 	}
+
+        auto server = init(argc, argv);
 
 	cout << "Server initialized" << "\n" << "----------------------" << "\n";
         while (true) {
