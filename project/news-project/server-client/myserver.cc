@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
         
 	MemoryDatabase db;
 	DriveDatabase ddb;
-        cout << "Drvove database init try 2222: " << endl;
+        cout << "Drvove database init try 12: " << endl;
         IDatabase* dbptr = nullptr;
         
 	string userinput;

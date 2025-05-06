@@ -62,7 +62,8 @@ DriveDatabase::DriveDatabase() {
                 article.content = content;
                 article.id = fileId;
                 newsgroups[dirId].articles.insert({article.id, article});
-                nextArticleId = fileId + 1;
+                //nextArticleId = fileId + 1;
+                newsgroups[dirId].nextArticleId = fileId + 1;
             }
         }
     }
@@ -97,16 +98,13 @@ bool DriveDatabase::createNewsgroup(const std::string &name)
     //    return false; // Newsgroup already exists
     //}
 
-    if (newsgroups.find(name) != newsgroups.end())
+    for (auto &pair : newsgroups)
     {
-        return false; // Newsgroup already exists
+        if (pair.second.name == name)
+        {
+            return false; // Newsgroup already exists
+        }
     }
-
-    std::string newsGrpId = std::to_string(nextNewsgroupId);
-    if (nextNewsgroupId < 10){
-        newsGrpId = "0" + newsGrpId;
-    }
-    std::string dirName = newsGrpId + name;
     Newsgroup newsgroup;
     newsgroup.id = nextNewsgroupId++;
     newsgroup.name = name;
@@ -127,7 +125,7 @@ bool DriveDatabase::deleteNewsgroup(int newsgroupId)
     //{
     //    return false; // Newsgroup does not exist
     //}
-    auto it = newsgroups.find(newsgroup_name);
+    auto it = newsgroups.find(newsgroupId);
     
     if (it != newsgroups.end())
     {
@@ -160,7 +158,7 @@ bool DriveDatabase::createArticle(int id, const std::string &title, const std::s
     //{
     //    return false;
     //}
-    if (newsgroups.find(newsgroup_name) == newsgroups.end())
+    if (newsgroups.find(id) == newsgroups.end())
     {
         return false;
     }
@@ -170,7 +168,7 @@ bool DriveDatabase::createArticle(int id, const std::string &title, const std::s
         article.author = author;
         article.title = title;
         article.content = content;
-        article.id = nextArticleId++;
+        article.id = newsgroups[id].nextArticleId++;
         newsgroups[id].articles.insert({article.id, article});
 
         std::string dirName = idConverter(id, newsgroups[id].name);
