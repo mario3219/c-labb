@@ -33,17 +33,9 @@ void serve_one(Server& server, IDatabase* dbptr)
         ServerCommandHandler cmdh(conn, dbptr);
         if (conn != nullptr) {
                 try {
+                        
                         cmdh.process();
 
-                        /* Server commands
-                        Suggested format: 
-                        command = conn.read()
-                        if command = LIST_GROUPS
-                                Commandhander.writeList(list)
-                        if command = SIZE_LIST
-                                commandhandler.writesize(size)
-                        ...
-                        */
                 } catch (ConnectionClosedException&) {
                         server.deregisterConnection(conn);
                         cout << "Client closed connection" << endl;

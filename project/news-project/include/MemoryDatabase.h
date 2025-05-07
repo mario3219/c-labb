@@ -18,7 +18,6 @@ public:
 
 private:
     int nextNewsgroupId = 1;
-    //int nextArticleId = 1;
 
     std::map<int, Newsgroup> newsgroups;
 };

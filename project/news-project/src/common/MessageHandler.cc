@@ -10,12 +10,10 @@ MessageHandler::MessageHandler(const Connection &con) : conn(con) {}
 /*Private methods*/
 void MessageHandler::sendByte(int code)
 {
-    // conn->write(static_cast<char>(code));
     conn.write(static_cast<char>(code));
 }
 int MessageHandler::recByte()
 {
-    // int code = static_cast<int>(conn->read());
     int code = static_cast<int>(conn.read());
     return code;
 }
@@ -37,8 +35,6 @@ void MessageHandler::sendInt(int value)
 
     sendByte(value & 0xFF);
 }
-
-// void MessageHandler::sendString(string str) {};
 
 void MessageHandler::sendStringParameter(string param)
 {
@@ -76,11 +72,9 @@ int MessageHandler::recInt()
     return b1 << 24 | b2 << 16 | b3 << 8 | b4;
 }
 
-// string MessageHandler::recString() {return ""};
-
 string MessageHandler::recStringParameter()
 {
-    int code = recCode(); // Doesnt check if the code is PAR_STRING! FIX
+    int code = recCode(); 
     if (code != static_cast<int>(Protocol::PAR_STRING))
     {
         throw std::runtime_error("Expected PAR_STRING code");
@@ -95,7 +89,6 @@ string MessageHandler::recStringParameter()
 
     for (int i = 0; i < n; i++)
     {
-        // char ch = static_cast<char>(conn->read());
         char ch = static_cast<char>(conn.read());
         result += ch;
     }

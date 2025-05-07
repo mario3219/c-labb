@@ -112,21 +112,6 @@ void ServerCommandHandler::createNewsgroup()
     }
 };
 
-/*TEMPORARY! The testserver selects newsgroups by id, but the delete function in MemoryDatabase
-uses groupnames*/
-std::string getNameById(IDatabase &db, int targetId)
-{
-    std::vector<Newsgroup> groups = db.listNewsgroups();
-    for (const auto &group : groups)
-    {
-        if (group.id == targetId)
-        {
-            return group.name;
-        }
-    }
-    return "NOT_FOUND";
-}
-
 void ServerCommandHandler::deleteNewsgroup()
 {
 

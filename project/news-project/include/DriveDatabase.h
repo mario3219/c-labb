@@ -19,7 +19,8 @@ public:
 
 private:
     int nextNewsgroupId = 1;
-    //int nextArticleId = 1;
+    int maxLimit = 99;
+    //int nbrOfdigits = 2
     std::filesystem::path dbPath;
 
     std::map<int, Newsgroup> newsgroups;
