@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
         IDatabase* dbptr = nullptr;
         
 	string userinput;
-	cout << "Choose database typee: " << "\n";
+	cout << "Choose database type: " << "\n";
 	cout << "1: Memorybased" << "\n" << "2: Hard-drive based" << "\n" << "----------------------";
 
 	while (userinput != "1" && userinput != "2") {

@@ -6,8 +6,8 @@ Requirements: C++20
 ## building with make
 
 `make` in the clientserver directory builds the library (in
-lib/libclientserver.a) and the example programs
-myclient and myserver (in the example directory).
+lib/libclientserver.a) and the programs
+myclient and myserver.
 
 For cleaning, use `make clean` and `make distclean`.
 
