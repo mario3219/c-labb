@@ -47,12 +47,9 @@ int app(const Connection& conn)
         while (RUNTIME && cin >> usr_input) {
                 /* Input client methods here */
                 try {
-                        /* SUGGESTED FORMAT
-                        cmdh.process();
-                        */
                         
                         cmdh.process(usr_input);
-                        //writeUI();
+                        //writeUI(); //to print UI again after each operation is finished
 
                 /* Closed connection handler */
                 } catch (ConnectionClosedException&) {
