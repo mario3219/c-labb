@@ -76,6 +76,7 @@ distclean: clean
 	-rm $(SRC_SERVER:.cc=.cc.swp)
 	-rm $(SRC_SERVER:.cc=.cc.swn)
 	-rm $(SRC_SERVER:.cc=.cc.swo)
+	-rm -f bin/myserver bin/myclient
 	make -C server-client distclean
 
 
@@ -83,3 +84,7 @@ distclean: clean
 -include $(SRC_COMMON:.cc=.d)
 -include $(SRC_DATABASE:.cc=.d)
 -include $(SRC_SERVER:.cc=.d)
+
+# Copy executables to bin
+install: all
+	cp server-client/myserver server-client/myclient bin/

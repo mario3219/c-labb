@@ -14,7 +14,6 @@ using std::list;
 using std::string;
 using enum Protocol;
 
-/*Constructors and destructors*/
 ServerCommandHandler::ServerCommandHandler(const std::shared_ptr<Connection> &conn, IDatabase *dbptr) : msgh(*conn), dbptr(dbptr)
 {
 }
@@ -154,7 +153,6 @@ void ServerCommandHandler::listArticles()
         msgh.sendCode(ANS_LIST_ART);
         std::vector<Newsgroup> list = dbptr->listNewsgroups();
 
-        /* TEMP - executes if newsgroup does not exist, but should be implemented in the database class*/
         auto it = std::find_if(list.begin(), list.end(), [groupId](const Newsgroup &s)
                                { return s.id == groupId; });
         if (it == list.end())
@@ -168,7 +166,6 @@ void ServerCommandHandler::listArticles()
             return;
         }
 
-        /*TEMP - should change container to an ordered set in database class*/
         std::vector<Article> articles = dbptr->listArticles(groupId);
         std::sort(articles.begin(), articles.end(), [](const Article &a, const Article &b)
                   { return a.id < b.id; });

@@ -3,7 +3,7 @@
 
 MemoryDatabase::MemoryDatabase() {}
 
-std::vector<Newsgroup> MemoryDatabase::listNewsgroups() const // returns a vector of all newsgroups in the order they where created
+std::vector<Newsgroup> MemoryDatabase::listNewsgroups() const
 {
     std::vector<Newsgroup> result;
     for (const auto &pair : newsgroups)
@@ -20,7 +20,7 @@ bool MemoryDatabase::createNewsgroup(const std::string &name)
     {
         if (pair.second.name == name)
         {
-            return false; // Newsgroup already exists
+            return false; // it already exists
         }
     }
 
@@ -39,9 +39,9 @@ bool MemoryDatabase::deleteNewsgroup(int newsgroupId)
     if (it != newsgroups.end())
     {
         newsgroups.erase(it);
-        return true;
+        return true; 
     }
-    return false; // Newsgroup not found
+    return false; 
 }
 
 std::vector<Article> MemoryDatabase::listArticles(int id) const
@@ -81,16 +81,16 @@ bool MemoryDatabase::deleteArticle(int newsgroupId, int articleId)
     auto it = newsgroups.find(newsgroupId);
     if (it == newsgroups.end())
     {
-        return false; // Newsgroup not found
+        return false;
     }
     auto articleIt = it->second.articles.find(articleId);
     if (articleIt == it->second.articles.end())
     {
-        return false; // Article not found
+        return false;
     }
-    // Remove the article from the newsgroup
+    
     newsgroups[newsgroupId].articles.erase(articleId);
-    return true;
+    return true; //article removed
 }
 
 Article MemoryDatabase::getArticle(int newsgroupId, int articleId) const

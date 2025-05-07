@@ -14,7 +14,6 @@ using std::string;
 using enum Protocol;
 using std::string;
 
-/*Constructors and destructors*/
 ClientCommandHandler::ClientCommandHandler(const Connection &conn) : msgh(conn) {}
 
 /*Checks commandbyte, then executes appropriate method

@@ -36,7 +36,7 @@ int extractId(std::string fullString){
     return id;
 }
 
-std::vector<Newsgroup> DriveDatabase::listNewsgroups() const // returns a vector of all newsgroups in the order they where created
+std::vector<Newsgroup> DriveDatabase::listNewsgroups() const 
 {
     std::vector<Newsgroup> result;
     for (const auto& dir : directory_iterator(dbPath)){

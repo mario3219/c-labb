@@ -3,11 +3,10 @@
 #include <stdexcept>
 
 using std::string;
-/*Constructors and destructors*/
-// MessageHandler::MessageHandler(const std::shared_ptr<Connection>& con) : conn(con) {}
+
 MessageHandler::MessageHandler(const Connection &con) : conn(con) {}
 
-/*Private methods*/
+
 void MessageHandler::sendByte(int code)
 {
     conn.write(static_cast<char>(code));
